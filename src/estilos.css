@@ -1,0 +1,481 @@
+.main-footer {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}
+
+.wrapper {
+    background-color: #fff!important;
+}
+
+.login-box-body {
+    background-color: #eee;
+}
+
+.login-box button {
+    margin-left: 0px;
+}
+
+.login-box a:hover {
+    cursor: pointer;
+}
+
+.dashboard-sensor-nome {
+    cursor: pointer;
+}
+
+.quadro-titulo {
+    display: flex;
+    background-color: rgb(189, 217, 255);
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    font-size: 16px;
+}
+
+.alinhadoParaDireita {
+    float: right;
+}
+
+.form-container {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.margem-botao {
+    margin-right: 10px;
+}
+
+.botoes-recipiente {
+    margin-bottom: 10px;
+}
+
+.botoes-barra {
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+}
+
+.botoes-flex {
+    flex: 1;
+}
+
+.margem-texto {
+    margin-left: 15px;
+}
+
+.margem-loader {
+    margin-left: 15px;
+}
+
+.padding-battery-wifi {
+    padding-top: 10px;
+}
+
+.margem-icon {
+    margin-right: 0px;
+}
+
+.margem-battery-wifi {
+    margin-top: 4px;
+}
+
+label {
+    font-weight: normal;
+}
+
+.fonte-negrito {
+    font-weight: bold;
+}
+
+.fonte-grande {
+    font-size: 16px;
+}
+
+.rotulo {
+    margin-right: 5px;
+    color: black;
+}
+
+.informacao {
+    color: rgb(104, 104, 104);
+}
+
+.quadro-branco-ba {
+    padding-top: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+    background: white;
+}
+
+.alinhar-direita {
+    float: right;
+}
+
+.contorno-preto {
+    border: 1px solid black;
+}
+
+.flex-item-1 {
+    flex: 1;
+}
+
+.content {
+    height: '100%';
+}
+
+.entrada-texto-erro {
+    border: 1px solid red;
+}
+
+td {
+    padding-right: 8px;
+}
+
+.botao-excluir-contato {
+    margin-top: 25px;
+    border: 1px;
+}
+
+.password-icon {
+    position: absolute;
+    top: 11px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.botao-ok {
+    width: 80px;
+}
+
+/* Dashboard - Recipiente geral onde ficam todos os cartões */
+
+.dashboard-container {
+    margin: 0 auto;
+    display: flex;
+    border: 1px solid #ccc;
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+/* Dashboard - Posicionar um card ao lado do outro e mudar de linha quando o espaço da tela acabar */
+
+.dashboard-cards-row-wrap {
+    flex-flow: row wrap;
+}
+
+/* Dashboard - Recipiente do cartão */
+
+.card-container {
+    border-radius: 8px;
+    border: 2px solid;
+    border-color: black;
+    padding: 0px;
+    margin: 1px;
+    width: 250px;
+    padding: 8px;
+}
+
+.card-container-tv {
+    border-radius: 8px;
+    border: 1px solid;
+    border-color: black;
+    margin: 1px;
+    width: 157px;
+    padding-top: 2px;
+    padding-left: 3px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+}
+
+/* Dashboard - Titulo do cartão */
+
+.card-title {
+    height: 38px;
+    width: 100%;
+    font-size: 14px;
+}
+
+.card-title-tv {
+    height: 27px;
+    width: 100%;
+    font-size: 9px;
+    margin-left: 5px;
+}
+
+/* Dashboard - Recipiente que fica o valor de temperatura, porta ou voltagem */
+
+.card-value {
+    border-radius: 8px;
+    font-size: 18px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-value-tv {
+    border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Dashboard - Leitura Atual */
+
+.mostrador-leitura {
+    margin-left: 10px;
+    margin-top: 6px;
+    margin-bottom: 3px;
+}
+
+/* Dashboard - Recipiente da bateria */
+
+.battery-container {
+    margin-left: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    height: 30px;
+    width: 80px;
+}
+
+.battery-container-tv {
+    margin-left: 6px;
+    border-radius: 5px;
+    font-size: 8px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    height: 18px;
+    width: 50px;
+}
+
+/* Dashboard - Espaço entre o icone da bateria e o texto com o valor */
+
+.margin-battery-text {
+    margin-left: 4px;
+}
+
+.alarm-container {
+    justify-content: center;
+    align-items: center;
+}
+
+.alarm-container-tv {
+    justify-content: center;
+    align-items: center;
+}
+
+/* Dashboard - Recipiente do wifi */
+
+.wifi-container {
+    margin-left: -8px;
+    margin-right: 0px;
+    border-radius: 5px;
+    font-size: 14px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    height: 30px;
+    width: 80px;
+}
+
+.wifi-container-tv {
+    margin-left: -9px;
+    margin-right: 0px;
+    border-radius: 5px;
+    font-size: 8px;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    height: 18px;
+    width: 50px;
+}
+
+/* Dashboard - Espaço entre o icone da bateria e o texto com o valor */
+
+.margin-wifi-text {
+    margin-left: 5px;
+}
+
+/* Dashboard - Posicionamento do icone do alarme */
+
+.alarm-icon {
+    margin-left: -8px;
+    margin-top: 4px;
+}
+
+/* Dashboard - Tamanho do icone do alarme */
+
+.alarm-icon-size {
+    font-size: 18px;
+}
+
+.girar {
+    font-size: 18px;
+    animation: fa-spin 2s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(359deg);
+    }
+}
+
+.piscar {
+    animation: blink-animation 1s steps(5, start) infinite;
+    -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+
+@keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+@-webkit-keyframes blink-animation {
+    to {
+        visibility: hidden;
+    }
+}
+
+.menu-item-descricao {
+    margin-left: 10px;
+}
+
+.ihsl-recipiente {
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+.texto-cinza {
+    color: #595959;
+}
+
+.centralizado {
+    display: flex;
+    justify-content: center;
+}
+
+.centralizado-vertical {
+    display: flex;
+    align-items: center;
+}
+
+.quadrado-pequeno {
+    width: 50px;
+    height: 50px;
+}
+
+.acordeao-expend-icon {
+    color: white
+}
+
+.cartao-data-hora {
+    position: absolute;
+    font-size: 13px;
+    top: 32px;
+    right: 20px;
+    width: 190px;
+    text-align: end;
+    border-radius: 10px;
+}
+
+.cartao-data-hora-tv {
+    position: absolute;
+    font-size: 8px;
+    top: 16px;
+    right: 21px;
+    width: 60px;
+    text-align: end;
+    border-radius: 10px;
+}
+
+.dashboard-mostrar-filtros {
+    position: absolute;
+    top: 0px;
+    height: 8px;
+    width: 100%;
+}
+
+.filtros-barra {
+    display: flex;
+    flex-direction: row;
+    padding-top: 15px;
+    padding-right: 15px;
+    margin-left: 10px;
+}
+
+.filtros-flex {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+.dashboard-filtro-titulo {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: end;
+    margin-top: -5px;
+    margin-right: 10px;
+    padding-bottom: 3px;
+}
+
+.tooltip {
+    font-size: 15px;
+}
+
+.quadro-regra {
+    margin-top: 15px;
+}
+
+.titulo-aplicativo {
+    color: white;
+}
+
+.margem-inferior {
+    margin-bottom: 15px;
+}
+
+.lista-opcoes-recipiente {
+    border: 2px solid #737373;
+    border-radius: 10px;
+    padding: 3px;  
+}
+
+.lista-opcoes-titulo {
+    display: flex;
+    background-color: rgb(189, 217, 255);
+    justify-content: center;
+    align-items: center;
+    padding-top: 5px;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+.mensagem-aviso {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
