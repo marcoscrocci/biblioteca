@@ -1,14 +1,11 @@
 import React, { createContext, useReducer } from 'react'
 import { actions as sistemaActions } from './SistemaActions'
-
+import { actions as usuarioActions } from './UsuarioActions'
 import { actions as testActions } from './TestActions'
 
 
 const initialState = {
-    usuario: {
-        uid: 'teste',
-        email: 'teste@teste.com'
-    }
+    usuario: null
 }
 
 const GlobalContext = createContext(initialState)
@@ -16,6 +13,7 @@ const GlobalContext = createContext(initialState)
 
 const actions = {
     ...sistemaActions,
+    ...usuarioActions,
     ...testActions
 }
 

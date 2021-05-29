@@ -1,6 +1,6 @@
 export const actions = {
     mudarBarraLateral(state, action) {
-        console.log('action')
+        //console.log('action')
         return {
             ...state,
             barraLateral: action.payload
@@ -9,7 +9,7 @@ export const actions = {
 }
 
 export const mudarBarraLateral = (dispatch, valor) => {
-    console.log('mudarBarraLateral')
+    //console.log('mudarBarraLateral')
     dispatch({
         type: 'mudarBarraLateral',
         payload: valor

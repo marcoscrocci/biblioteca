@@ -1,28 +1,24 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import App from './App'
-//import GlobalContext from './context/GlobalContext'
+import GlobalContext from './context/GlobalContext'
 import Login from './pages/login'
-import firebase from 'firebase/app';
-import FirebaseClient from './FirebaseClient'
+import { recuperarUsuario } from './context/UsuarioActions'
 
 
-export default function LoginOuAplicacao(props) {
-    FirebaseClient();
 
-    const obterUsuario = () => {
-        const usuarioFirebase = firebase.auth();
-        return usuarioFirebase.currentUser;
-    }
+export default function LoginOuAplicacao() {
+
+    const { dispatch, state } = useContext(GlobalContext)
     
-    //const { state, dispatch } = useContext(GlobalContext)
-    const usuario = obterUsuario();
-    console.log(usuario)
 
-    if (usuario) {
-        console.log(usuario)
+    useEffect(() => {
+        recuperarUsuario(dispatch);
+    }, [dispatch]);
+    
+  
+    if (state.usuario) {
         return <App />
     } else {
-        console.log('login')
         return <Login />
     } 
     

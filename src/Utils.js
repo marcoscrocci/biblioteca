@@ -1,10 +1,23 @@
-const crypto = require('crypto')
-const moment = require('moment');
-const algoritmo = 'aes-256-ctr'
-const { chave_criptografia, ivPass, ajustarFusoHorario, fusoHorarioMoment } = require('./config')
-const { isBrowser, isMobile, isTablet, isSmartTV } = require('react-device-detect')
+//const crypto = require('crypto')
+//const moment = require('moment');
+//const algoritmo = 'aes-256-ctr'
+//const { chave_criptografia, ivPass, ajustarFusoHorario, fusoHorarioMoment } = require('./config')
+//const { isBrowser, isMobile, isTablet, isSmartTV } = require('react-device-detect')
 
 
+export function guardar(chave, objeto) {
+	localStorage.setItem(chave, JSON.stringify(objeto))
+}
+
+export function recuperar(chave) {
+	return JSON.parse(localStorage.getItem(chave))
+}
+
+export function remover(chave) {
+	localStorage.removeItem(chave)
+}
+
+/*
 export function criptografar(texto) {
 	const key = Buffer.from(chave_criptografia, 'hex')
 	const iv = Buffer.from(ivPass, 'hex')
@@ -26,6 +39,7 @@ export function descriptografar(texto) {
 
 	return descriptado.toString()
 }
+
 
 export function detectar_mobile() {
 	var check = false; //wrapper no check
@@ -81,23 +95,16 @@ export function cnpjValido(s) {
 
 	return calc(t) === d1 && calc(t + 1) === d2
 }
+*/
 
-export function guardar(chave, objeto) {
-	localStorage.setItem(chave, JSON.stringify(objeto))
-}
 
-export function recuperar(chave) {
-	return JSON.parse(localStorage.getItem(chave))
-}
 
-export function remover(chave) {
-	localStorage.removeItem(chave)
-}
-
+/*
 export function dataAtual() {
 	const fusoHorario = ajustarFusoHorario
 	return moment(new Date()).add(fusoHorario, 'hours').toDate()
 }
+
 
 export function dataValidadeSenha() {
 	// Quando o usuário estiver com a validade da senha vencida e trocar, 
@@ -110,6 +117,7 @@ export function dataValidadeSenha() {
 export function dataHoraString(dataHora, formato = 'YYYY-MM-DD HH:mm:ss') {
 	return moment(dataHora).add(fusoHorarioMoment, 'hours').format(formato)
 }
+
 
 export function dataHoraFusoHorario(dataHora) {
 	const fusoHorario = ajustarFusoHorario
@@ -155,6 +163,7 @@ export function temAcesso(caminho, state, dispatch, history, sairUsuario) {
 	}
 }
 
+
 export function criarAudio(arquivo) {
 	var audio
 	if (arquivo.substr(0, 4) === 'http') {
@@ -164,6 +173,7 @@ export function criarAudio(arquivo) {
 	}
 	return audio
 }
+
 
 export function tipoDispositivo() {
 	return isBrowser ? 'Browser' : isMobile ? 'Mobile' : isTablet ? 'Tablet' : isSmartTV ? 'Smart TV' : 'Outro'
@@ -182,15 +192,17 @@ export function retirarAcentos(str) {
 	for (let i = 0; i < str.length; i++) {
 		let troca = false;
 		for (let a = 0; a < com_acento.length; a++) {
-			if (str.substr(i, 1) == com_acento.substr(a, 1)) {
+			if (str.substr(i, 1) === com_acento.substr(a, 1)) {
 				novastr += sem_acento.substr(a, 1);
 				troca = true;
 				break;
 			}
 		}
-		if (troca == false) {
+		if (troca === false) {
 			novastr += str.substr(i, 1);
 		}
 	}
 	return novastr;
 }       
+
+*/

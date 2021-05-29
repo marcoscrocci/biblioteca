@@ -1,22 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { autenticarUsuario } from '../../context/UsuarioActions'
+import GlobalContext from '../../context/GlobalContext'
 import firebase from 'firebase/app';
 import FirebaseClient from '../../FirebaseClient'
 
 export default function Login() {
     FirebaseClient();
+    const { dispatch } = useContext(GlobalContext);
 
 
-    const autenticarUsuario = () => {
+    const entrar = () => {
         var email = "curso.firebase@gmail.com";
         var senha = "secret12345";
-        const usuario = firebase.auth();
-        usuario.signInWithEmailAndPassword(email, senha)
-            .then(() => {
-                alert("Usuário autenticado com sucesso!");
-            })
-            .catch((error) => {
-                alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            });
+        
+        autenticarUsuario(dispatch, email, senha);
+        
     }
 
     const verificarUsuarioAutenticado = () => {
@@ -29,13 +27,15 @@ export default function Login() {
         }
     }
 
+
     return(
         <div>
             Login
             <br />
-            <button onClick={() => autenticarUsuario()}>Usuário - Autenticar</button>
+            <button onClick={() => entrar()}>Usuário - Autenticar</button>
             <br />
             <button onClick={() => verificarUsuarioAutenticado()}>Verificar Usuário Autenticado</button>
+
         </div>
     )
 

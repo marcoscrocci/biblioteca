@@ -169,9 +169,10 @@ export default function TestFirebase(props) {
 
     useEffect(() => {
         const usuario = firebase.auth();
-        usuario.onAuthStateChanged((usuarioAtual) => {
+        const estadoAutenticacaoAlterado = usuario.onAuthStateChanged((usuarioAtual) => {
             setUsuarioAutenticado(usuarioAtual);
         })
+        return () => estadoAutenticacaoAlterado();
     }, [])
 
     const usuarioSair = () => {

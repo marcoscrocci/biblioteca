@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
-//import GlobalContext from '../../context/GlobalContext'
+import firebase from 'firebase/app';
+import FirebaseClient from '../../FirebaseClient'
+import GlobalContext from '../../context/GlobalContext'
+import { sairUsuario } from '../../context/UsuarioActions'
 
 
-export default function Main (props) {
-    //const { state, dispatch } = useContext(GlobalContext);
+export default function Main() {
+    FirebaseClient();
+    const { dispatch, state } = useContext(GlobalContext);
     const history = useHistory();
+
+    const usuarioSair = () => {
+        const usuario = firebase.auth();
+        usuario.signOut();
+        //history.push('/');
+        sairUsuario(dispatch);
+    }
     
+    //console.log(state.usuario)
 
     return (
         <div>
             <p>Principal</p>
             <button onClick={() => history.push('/testfirebase')}>Teste Firebase</button>
             <br />
+            <button onClick={() => usuarioSair()}>Usuário - Sair</button>
+            <br />
+
+            <br />
+            <br />
+            {state.usuario.email}
+            
         </div>
     )
 }
