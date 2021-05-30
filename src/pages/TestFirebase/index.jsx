@@ -144,10 +144,23 @@ export default function TestFirebase(props) {
     }
 
     const getLanguages = () => {
-        var languages = firebase.database().ref("languages");
-        languages.on('value', (snapshot) => {
+        //var languages = firebase.database().ref("languages");
+        // languages.on('value', (snapshot) => {
+        //     setLanguages(snapshot.val());
+        // })
+        //var legendas = firebase.database().ref("legendas")
+        firebase.database().ref("legendas").child("portugues").get().then((legenda) => {
+            console.log('getLanguages =', JSON.parse(JSON.stringify(legenda)))
+            setLanguages(legenda);    
+        })
+        
+        
+        /*
+        legenda.on('value', (snapshot) => {
             setLanguages(snapshot.val());
         })
+        */
+
     }
 
     const getLista = () => {
