@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from "react-router-dom";
 //import GlobalContext from '../../context/GlobalContext'
 import firebase from 'firebase/app';
-import FirebaseClient from '../../FirebaseClient'
+import FirebaseClient from '../../FirebaseClient';
+import legendas from '../../recursos/legendas.json';
 
 export default function TestFirebase(props) {
     FirebaseClient();
@@ -149,11 +150,12 @@ export default function TestFirebase(props) {
         //     setLanguages(snapshot.val());
         // })
         //var legendas = firebase.database().ref("legendas")
-        firebase.database().ref("legendas").child("portugues").get().then((legenda) => {
-            console.log('getLanguages =', JSON.parse(JSON.stringify(legenda)))
-            setLanguages(legenda);    
-        })
+        // firebase.database().ref("legendas").get().then((legendas) => {
+        //     console.log('getLanguages =', JSON.parse(JSON.stringify(legendas)))
+        //     setLanguages(legendas);    
+        // })
         
+        setLanguages(legendas);
         
         /*
         legenda.on('value', (snapshot) => {

@@ -5,7 +5,6 @@ import FirebaseClient from '../../FirebaseClient'
 import GlobalContext from '../../context/GlobalContext'
 import { sairUsuario } from '../../context/UsuarioActions'
 
-
 export default function Main() {
     FirebaseClient();
     const { dispatch, state } = useContext(GlobalContext);
@@ -35,3 +34,4 @@ export default function Main() {
         </div>
     )
 }
+

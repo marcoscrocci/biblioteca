@@ -86,11 +86,6 @@ export default function Login() {
 
     const [Email, setEmail] = useState();
     const [Senha, setSenha] = useState();
-    const [Titulo, setTitulo] = useState('Biblioteca da Escola');
-    const [InformeCredenciais, setInformeCredenciais] = useState('Informe suas credenciais');
-    const [EntrarEmail, setEntrarEmail] = useState('E-mail');
-    const [EntrarSenha, setEntrarSenha] = useState('Senha');
-    const [EntrarConfirmar, setEntrarConfirmar] = useState('Confirmar');
 
     useEffect(() => {
         setFullscreen(isMobile);
@@ -98,15 +93,14 @@ export default function Login() {
         autoFocus();
     }, [])
 
-    useEffect(() => {
+
+    const obterLegenda = (chave) => {
         if (state.legenda) {
-            setTitulo(state.legenda.entrarTitulo);
-            setInformeCredenciais(state.legenda.informeCredenciais);
-            setEntrarEmail(state.legenda.entrarEmail);
-            setEntrarSenha(state.legenda.entrarSenha);
-            setEntrarConfirmar(state.legenda.entrarConfirmar);
+            return state.legenda[chave];
+        } else {
+            return '...';
         }
-    }, [state.legenda]);
+    }
 
     const entrar = () => {
         //var email = "curso.firebase@gmail.com";
@@ -144,7 +138,7 @@ export default function Login() {
                 keepMounted
             >
                 <DialogTitle style={dialogFormEstilo} id="draggable-dialog-title" onFullscreen={handleFullscreen}>
-                    {Titulo}
+                    {obterLegenda('entrarTitulo')}
                 </DialogTitle>
                 <DialogContent>
                     <form>
@@ -157,13 +151,13 @@ export default function Login() {
                         <Linha>
                             <Grade>
                                 <div className="margem-inferior">
-                                    <label className="texto-cinza">{InformeCredenciais}</label>
+                                    <label className="texto-cinza">{obterLegenda('entrarInformeCredenciais')}</label>
                                 </div>
                             </Grade>
                             <EntradaTexto
                                 id="login"
                                 colunas="12"
-                                rotulo={EntrarEmail}
+                                rotulo={obterLegenda('entrarEmail')}
                                 valor={Email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 nome="Login"
@@ -172,7 +166,7 @@ export default function Login() {
                             <EntradaTexto
                                 colunas="12"
                                 tipo="password"
-                                rotulo={EntrarSenha}
+                                rotulo={obterLegenda('entrarSenha')}
                                 valor={Senha}
                                 onChange={(e) => setSenha(e.target.value)}
                                 nome="Senha"
@@ -187,7 +181,7 @@ export default function Login() {
                                 style={botaoEstilo}
                                 onClick={entrar}
                             >
-                                {EntrarConfirmar}
+                                {obterLegenda('entrarConfirmar')}
                             </Button>
                         </div>
                     </form>
