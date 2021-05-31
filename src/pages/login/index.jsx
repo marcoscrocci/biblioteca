@@ -126,7 +126,7 @@ export default function Login() {
 
 
     return (
-        <div>
+        <div className="fundoImagem">
             <Dialog
                 classes={{ paper: classes.paper }}
                 fullScreen={fullscreen}
