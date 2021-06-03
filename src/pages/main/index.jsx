@@ -4,6 +4,7 @@ import firebase from 'firebase/app';
 import FirebaseClient from '../../FirebaseClient'
 import GlobalContext from '../../context/GlobalContext'
 import { sairUsuario } from '../../context/UsuarioActions'
+import Conteudo from '../../componentes/Conteudo'
 
 export default function Main() {
     FirebaseClient();
@@ -21,15 +22,17 @@ export default function Main() {
 
     return (
         <div>
-            <p>Principal</p>
-            <button onClick={() => history.push('/testfirebase')}>Teste Firebase</button>
-            <br />
-            <button onClick={() => usuarioSair()}>Usuário - Sair</button>
-            <br />
+            <Conteudo>
+                <p>Principal</p>
+                <button onClick={() => history.push('/testfirebase')}>Teste Firebase</button>
+                <br />
+                <button onClick={() => usuarioSair()}>Usuário - Sair</button>
+                <br />
 
-            <br />
-            <br />
-            {state.usuario.email}
+                <br />
+                <br />
+                {state.usuario.email}
+            </Conteudo>
             
         </div>
     )

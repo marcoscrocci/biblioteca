@@ -1,9 +1,11 @@
 {
     "portugues": {
+        "principal": "Principal", 
         "entrarConfirmar": "Confirmar",
         "entrarEmail": "E-mail",
         "entrarSenha": "Senha",
         "entrarTitulo": "Biblioteca da Escola",
-        "entrarInformeCredenciais": "Informe suas credenciais"
+        "entrarInformeCredenciais": "Informe suas credenciais",
+        "sair": "Sair"
     }
 }

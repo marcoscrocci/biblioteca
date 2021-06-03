@@ -5,7 +5,19 @@ import { actions as testActions } from './TestActions'
 
 
 const initialState = {
-    usuario: null
+    barraLateral: true,
+    usuario: null,
+    menu: [
+        {
+            MenuID: 1,
+            Descricao: 'Livros',
+            Icone: 'Livros',
+            Caminho: 'livros',
+            Ordem: 1,
+            SubMenuID: null,
+            SubMenu: []
+        }
+    ]
 }
 
 const GlobalContext = createContext(initialState)

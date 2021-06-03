@@ -28,8 +28,8 @@ export const actions = {
         return {
             ...state,
             usuario: null,
-            token: null,
-            menu: null
+            token: null
+            //menu: null
         }
     }
 
