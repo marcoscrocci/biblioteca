@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import FirebaseClient from './../FirebaseClient'
-import { guardar, recuperar, remover } from '../Utils'
+import { guardar, recuperar, remover, mostrarMensagem } from '../Utils'
 
 export const actions = {
 
@@ -24,6 +24,16 @@ export const actions = {
         }
     },
 
+    usuarioNaoAutenticado(state, action) {
+        console.log('mostrarMensagem =', action.payload);
+        mostrarMensagem(action.payload)
+        return {
+            ...state,
+            erroAutenticandoUsuario: true,
+            estaAutenticandoUsuario: false
+        }
+    },
+
     sairUsuario(state, action) {
         return {
             ...state,
@@ -36,7 +46,7 @@ export const actions = {
 }
 
 
-export const autenticarUsuario = (dispatch, email, senha) => {
+export const autenticarUsuario = (dispatch, email, senha, mensagemComponente) => {
     try {
         //console.log('autenticarUsuario - email =', email, 'senha =', senha);
         dispatch({
@@ -61,12 +71,22 @@ export const autenticarUsuario = (dispatch, email, senha) => {
             //alert("Usuário autenticado com sucesso!");
         })
         .catch((error) => {
-            alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+            dispatch({
+                type: 'usuarioNaoAutenticado',
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', titulo: 'Erro', codigo: error.code, texto: error.message } }
+            });
         });
 
 
     } catch (error) {
-        alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+        dispatch({
+            type: 'usuarioNaoAutenticado',
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', titulo: 'Erro', texto: error.message } }
+        });
     }
 }
 

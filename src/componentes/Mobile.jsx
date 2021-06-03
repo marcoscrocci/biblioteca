@@ -234,11 +234,10 @@ export default function Mobile(props) {
     */
 
     const sair = () => {
-        history.push('/')
-        remover('dashboard_usuario')
-        remover('dashboard_manterConectado')
-        sairUsuario(dispatch)
-        handleMenuClose()
+        history.push('/');
+        remover('biblioteca_usuario');
+        sairUsuario(dispatch);
+        handleMenuClose();
     }
 
     /*

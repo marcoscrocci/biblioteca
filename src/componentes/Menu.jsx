@@ -38,10 +38,9 @@ export default function Menu() {
     }
 
     const sair = () => {
-        history.push('/')
-        remover('dashboard_usuario')
-        remover('dashboard_manterConectado')
-        sairUsuario(dispatch)
+        history.push('/');
+        remover('biblioteca_usuario');
+        sairUsuario(dispatch);
     }
 
 

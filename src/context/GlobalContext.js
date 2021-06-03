@@ -16,6 +16,15 @@ const initialState = {
             Ordem: 1,
             SubMenuID: null,
             SubMenu: []
+        },
+        {
+            MenuID: 2,
+            Descricao: 'Usuários',
+            Icone: 'Usuarios',
+            Caminho: 'usuarios',
+            Ordem: 2,
+            SubMenuID: null,
+            SubMenu: []
         }
     ]
 }

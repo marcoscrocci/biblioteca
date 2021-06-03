@@ -241,11 +241,10 @@ export default function Conteudo(props) {
     */
 
     const sair = () => {
-        history.push('/')
-        remover('dashboard_usuario')
-        remover('dashboard_manterConectado')
-        sairUsuario(dispatch)
-        handleMenuClose()
+        history.push('/');
+        remover('biblioteca_usuario');
+        sairUsuario(dispatch);
+        handleMenuClose();
     }
 
     /*
@@ -481,7 +480,7 @@ export default function Conteudo(props) {
                             // style={botaoEstilo}
                             endIcon={<AccountCircle />}
                         >
-                            {state.usuario.Nome}
+                            {state.usuario.email}
                         </Button>
                     
 

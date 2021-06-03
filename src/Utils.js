@@ -17,6 +17,36 @@ export function remover(chave) {
 	localStorage.removeItem(chave)
 }
 
+export function mostrarMensagem(msg) {
+	if (msg) {
+		const { mensagemComponente, mensagemObjeto } = msg;
+		let { tipo, titulo, codigo, texto } = mensagemObjeto;
+		if (codigo) {
+			texto = traduzirMensagemFirebase(codigo, texto);
+		}
+		if (mensagemComponente && mensagemComponente.current) {
+			mensagemComponente.current.mostrarMensagem({
+				tipo,
+				titulo,
+				texto
+			})
+		}
+	}
+}
+
+export function traduzirMensagemFirebase(codigo, texto) {
+	switch (codigo) {
+		case 'auth/wrong-password': 
+			return 'Usuário e/ou senha inválido(s)';
+		case 'auth/user-not-found':
+			return 'Usuário e/ou senha inválido(s)';
+		case 'auth/too-many-requests':
+			return 'O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login malsucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.';
+		default:
+			return texto;
+	}
+} 
+
 /*
 export function criptografar(texto) {
 	const key = Buffer.from(chave_criptografia, 'hex')
@@ -127,20 +157,6 @@ export function dataHoraFusoHorario(dataHora) {
 
 export function dataAtualString() {
 	return moment().format('YYYY-MM-DD')
-}
-
-
-export function mostrarMensagem(msg) {
-	if (msg) {
-		const { mensagemComponente, mensagemObjeto } = msg
-		if (mensagemComponente && mensagemComponente.current) {
-			mensagemComponente.current.mostrarMensagem({
-				tipo: mensagemObjeto.tipo,
-				titulo: mensagemObjeto.titulo,
-				texto: mensagemObjeto.texto
-			})
-		}
-	}
 }
 
 

@@ -14,7 +14,7 @@ export default function Main() {
     return (
         <div>
             <Conteudo>
-                <p>Livros</p>
+                <p>Usuários</p>
             </Conteudo>
             
         </div>

@@ -106,7 +106,7 @@ export default function Login() {
         //var email = "curso.firebase@gmail.com";
         //var senha = "secret12345";
         
-        autenticarUsuario(dispatch, Email, Senha);
+        autenticarUsuario(dispatch, Email, Senha, mensagem);
     }
 
     const handleFullscreen = () => {

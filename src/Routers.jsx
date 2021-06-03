@@ -9,8 +9,10 @@ import {
 
 import Main from './pages/main';
 import Livros from './pages/livros'
+import Usuarios from './pages/usuarios';
 import TestFirebase from './pages/TestFirebase';
 import Teste from './pages/teste';
+
 
 export default function Routers(props) {
     return (
@@ -19,6 +21,7 @@ export default function Routers(props) {
                 <Route path='/testfirebase' component={TestFirebase} />
                 <Route path='/teste' component={Teste} />
                 <Route path='/livros' component={Livros} />
+                <Route path='/usuarios' component={Usuarios} />
                 <Route path='/' component={Main} />
                 <Redirect from='*' to='/' />
             </Switch>
