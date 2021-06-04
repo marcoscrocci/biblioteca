@@ -6,6 +6,12 @@
         "entrarSenha": "Senha",
         "entrarTitulo": "Biblioteca da Escola",
         "entrarInformeCredenciais": "Informe suas credenciais",
-        "sair": "Sair"
+        "sair": "Sair",
+        "operacaoRealizadaComSucesso": "Operação realizada com sucesso",
+        "sucesso": "Sucesso",
+        "usuarioSenhaInvalidos": "Usuário e/ou senha inválido(s)",
+        "acessoContaTemporariamenteDesativada": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login malsucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
+        "emailEmUso": "O endereço de e-mail já está sendo usado por outra conta",
+        "emailInvalido": "O endereço de e-mail é inválido"
     }
 }

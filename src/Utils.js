@@ -4,7 +4,6 @@
 //const { chave_criptografia, ivPass, ajustarFusoHorario, fusoHorarioMoment } = require('./config')
 //const { isBrowser, isMobile, isTablet, isSmartTV } = require('react-device-detect')
 
-
 export function guardar(chave, objeto) {
 	localStorage.setItem(chave, JSON.stringify(objeto))
 }
@@ -17,12 +16,12 @@ export function remover(chave) {
 	localStorage.removeItem(chave)
 }
 
-export function mostrarMensagem(msg) {
+export function mostrarMensagem(msg, state) {
 	if (msg) {
 		const { mensagemComponente, mensagemObjeto } = msg;
 		let { tipo, titulo, codigo, texto } = mensagemObjeto;
 		if (codigo) {
-			texto = traduzirMensagemFirebase(codigo, texto);
+			texto = traduzirMensagemFirebase(codigo, texto, state);
 		}
 		if (mensagemComponente && mensagemComponente.current) {
 			mensagemComponente.current.mostrarMensagem({
@@ -34,14 +33,18 @@ export function mostrarMensagem(msg) {
 	}
 }
 
-export function traduzirMensagemFirebase(codigo, texto) {
+export function traduzirMensagemFirebase(codigo, texto, state) {
 	switch (codigo) {
-		case 'auth/wrong-password': 
-			return 'Usuário e/ou senha inválido(s)';
-		case 'auth/user-not-found':
-			return 'Usuário e/ou senha inválido(s)';
-		case 'auth/too-many-requests':
-			return 'O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login malsucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.';
+		case "auth/wrong-password": 
+			return state.legenda.usuarioSenhaInvalidos; //"Usuário e/ou senha inválido(s)";
+		case "auth/user-not-found":
+			return state.legenda.usuarioSenhaInvalidos; //"Usuário e/ou senha inválido(s)";
+		case "auth/too-many-requests":
+			return state.legenda.acessoContaTemporariamenteDesativada; // "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login malsucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.";
+		case "auth/email-already-in-use":
+			return state.legenda.emailEmUso; //"O endereço de e-mail já está sendo usado por outra conta.";
+		case "auth/invalid-email":
+			return state.legenda.emailInvalido
 		default:
 			return texto;
 	}
