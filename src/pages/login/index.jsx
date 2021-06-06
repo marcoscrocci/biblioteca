@@ -131,6 +131,7 @@ export default function Login() {
 
     return (
         <div className="fundoImagem">
+            
             <Dialog
                 classes={{ paper: classes.paper }}
                 fullScreen={fullscreen}
@@ -192,7 +193,7 @@ export default function Login() {
                 </DialogContent>
             </Dialog>
             <Mensagem ref={mensagem} />
-            {state.estaCarregandoLegendas && <Loader />}
+            {(state.estaCarregandoLegendas || state.estaAutenticandoUsuario) && <Loader />}
         </div>
     )
 }

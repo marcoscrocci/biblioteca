@@ -465,7 +465,7 @@ export default function Mobile(props) {
                             // style={botaoEstilo}
                             endIcon={<AccountCircle />}
                         >
-                            {state.usuario.Nome}
+                            {state.usuario.nome}
                         </Button>
                     
 

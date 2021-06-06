@@ -50,6 +50,14 @@ export function traduzirMensagemFirebase(codigo, texto, state) {
 	}
 } 
 
+export function sleep(milliseconds) {
+	const date = Date.now();
+	let currentDate = null;
+	do {
+		currentDate = Date.now();
+	} while (currentDate - date < milliseconds);
+}
+
 /*
 export function criptografar(texto) {
 	const key = Buffer.from(chave_criptografia, 'hex')

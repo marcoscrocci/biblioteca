@@ -4,7 +4,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { GlobalProvider } from "./context/GlobalContext";
 import LoginOuAplicacao from './LoginOuAplicacao'
-import "./estilos.css";
+import './dependencias'
 
 ReactDOM.render(
     <React.StrictMode>

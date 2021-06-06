@@ -480,7 +480,7 @@ export default function Conteudo(props) {
                             // style={botaoEstilo}
                             endIcon={<AccountCircle />}
                         >
-                            {state.usuario.email}
+                            {state.usuario.nome}
                         </Button>
                     
 

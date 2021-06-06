@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import firebase from 'firebase/app';
 import FirebaseClient from '../../FirebaseClient';
 import legendas from '../../recursos/legendas.json';
+import b64 from 'base-64';
 
 export default function TestFirebase(props) {
     FirebaseClient();
@@ -15,6 +16,7 @@ export default function TestFirebase(props) {
     const [Funcionarios, setFuncionarios] = useState(null);
     const [Languages, setLanguages] = useState(null);
     const [Lista, setLista] = useState(null);
+    const [UsuarioDados, setUsuarioDados] = useState(null);
 
     const salvarDados = () => {
         //alert("Salvar Dados");
@@ -208,6 +210,21 @@ export default function TestFirebase(props) {
             });
     }
 
+    const getUsuario = () => {        
+        const firebaseAuth = firebase.auth();
+        const usuario = firebaseAuth.currentUser;
+        let emailB64 = b64.encode(usuario.email);
+        firebase.database().ref(`/usuarios/${emailB64}`)
+        .on('value', snapshot => {
+            setUsuarioDados(snapshot.val());
+        });
+        
+        //console.log('usuarios =', JSON.stringify(JSON.parse(usuarios)));
+        //console.log('autenticarUsuario - usuario =', usuario);
+
+        
+    }
+
 
     return (
         <div style={{ margin: 20 }}>
@@ -244,6 +261,16 @@ export default function TestFirebase(props) {
             <button onClick={() => incluirListaPorJson()}>Gravar Lista por Json</button>
             <br />
             <button onClick={() => history.push('/')}>Principal</button>
+            <br />
+            <button onClick={() => getUsuario()}>Get Usuario</button>
+            <br />
+            <br />
+            <label>UsuarioDados:</label><br />
+            <textarea 
+                style={{ width: '70%', height: '200px' }} 
+                readOnly={true}
+                value={JSON.stringify(UsuarioDados, null, 4)} 
+            />
             <br />
             <hr />
             <br />

@@ -1,5 +1,6 @@
 {
     "portugues": {
+        "nomeAplicativo": "Biblioteca",
         "principal": "Principal", 
         "entrarConfirmar": "Confirmar",
         "entrarEmail": "E-mail",
@@ -12,6 +13,13 @@
         "usuarioSenhaInvalidos": "Usuário e/ou senha inválido(s)",
         "acessoContaTemporariamenteDesativada": "O acesso a esta conta foi temporariamente desativado devido a muitas tentativas de login malsucedidas. Você pode restaurá-lo imediatamente redefinindo sua senha ou pode tentar novamente mais tarde.",
         "emailEmUso": "O endereço de e-mail já está sendo usado por outra conta",
-        "emailInvalido": "O endereço de e-mail é inválido"
+        "emailInvalido": "O endereço de e-mail é inválido",
+        "usuariosTitulo": "Usuários",
+        "usuariosTituloLista": "Lista de Usuários",
+        "codigo": "Código",
+        "nome": "Nome",
+        "email": "E-mail",
+        "adicionar": "Adicionar",
+        "atualizar": "Atualizar"
     }
 }

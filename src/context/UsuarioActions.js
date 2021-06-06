@@ -74,35 +74,61 @@ export const actions = {
         }
     },
 
+    listandoUsuarios(state, action) {
+        return {
+            ...state,
+            erroListandoUsuarios: false,
+            estaListandoUsuarios: true
+        }
+    },
+
+    usuariosListados(state, action) {
+        const usuarios = action.payload;
+        return {
+            ...state,
+            erroListandoUsuarios: false,
+            estaListandoUsuarios: false,
+            usuarios
+        }
+    },
+
+    usuariosNaoListados(state, action) {
+        return {
+            ...state,
+            erroListandoUsuarios: true,
+            estaListandoUsuarios: false
+        }
+    }
+
 }
 
 
-export const autenticarUsuario = (dispatch, usuario, mensagemComponente) => {
+export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) => {
     try {
         //console.log('autenticarUsuario - email =', email, 'senha =', senha);
         const {email, senha} = usuario;
         dispatch({
             type: 'autenticandoUsuario'
         });
-
         FirebaseClient();
-        const usuarioFirebase = firebase.auth();
-   
+        const firebaseAuth = firebase.auth();
         
-        usuarioFirebase.signInWithEmailAndPassword(email, senha)
+        firebaseAuth.signInWithEmailAndPassword(email, senha)
         .then(() => {
-            const usuario = usuarioFirebase.currentUser;
-            //let emailB64 = b64.encode(usuario.email);
-            //console.log('emailB64 =', emailB64);
-            //const usuarios = firebase.database().ref("usuarios");
-            //console.log('usuarios =', JSON.stringify(JSON.parse(usuarios)));
-            //console.log('autenticarUsuario - usuario =', usuario);
-            dispatch({ 
-                type: 'usuarioAutenticado',
-                payload: usuario
+            const usuario = firebaseAuth.currentUser;
+            let emailB64 = b64.encode(usuario.email);
+            firebase.database().ref(`/usuarios/${emailB64}`)
+            .on('value', snapshot => {
+                let usuarioInfo = snapshot.val();
+                usuarioInfo.uid = usuario.uid;
+                guardar('biblioteca_usuario', usuarioInfo);
+                dispatch({ 
+                    type: 'usuarioAutenticado',
+                    payload: usuarioInfo
+                });
+    
             });
 
-            guardar('biblioteca_usuario', usuario);
 
             //alert("Usuário autenticado com sucesso!");
         })
@@ -176,7 +202,7 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
             console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
             dispatch({
                 type: 'usuarioNaoRegistrado',
-                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', titulo: 'Erro', codigo: error.code, texto: error.message } }
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
             });
         });
 
@@ -184,8 +210,33 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
         console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
             type: 'usuarioNaoAutenticado',
-            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', titulo: 'Erro', texto: error.message } }
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', texto: error.message } }
         });
     }
 
+}
+
+export const listarUsuarios = (dispatch, mensagemComponente) => {
+    try {
+        dispatch({
+            type: 'listandoUsuarios'
+        });
+        FirebaseClient();
+
+        firebase.database().ref('usuarios')
+        .on('value', snapshot => {
+            let usuarios = snapshot.val();
+            dispatch({ 
+                type: 'usuariosListados',
+                payload: usuarios
+            });
+
+        });
+    } catch (error) {
+        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+        dispatch({
+            type: 'usuariosNaoListados',
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', texto: error.message } }
+        });
+    }
 }
