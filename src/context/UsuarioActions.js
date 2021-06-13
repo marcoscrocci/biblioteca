@@ -189,7 +189,8 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
             
             const usuarios = firebase.database().ref("usuarios");
             const usuario = usuarios.child(emailB64);
-            usuario.set({email, nome})
+            const ativo = 1;
+            usuario.set({email, nome, ativo})
             .then(() => {
                 dispatch({ 
                     type: 'usuarioRegistrado',

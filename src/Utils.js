@@ -58,6 +58,19 @@ export function sleep(milliseconds) {
 	} while (currentDate - date < milliseconds);
 }
 
+export function objetosParaLista(objetos) {
+	// Converter uma lista do formato Firebase para uma lista no formato de Array do JavaScript
+	let lista = [];
+	if (objetos) {
+		lista = Object.keys(objetos).map(id => {
+			let objeto = objetos[id];
+			objeto.id = id;
+			return objeto
+		});
+	};
+	return lista;
+}
+
 /*
 export function criptografar(texto) {
 	const key = Buffer.from(chave_criptografia, 'hex')

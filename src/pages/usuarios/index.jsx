@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect } from 'react';
+import React, { useContext, useRef, useEffect, useState } from 'react';
 //import { useHistory } from "react-router-dom";
 //import firebase from 'firebase/app';
 import FirebaseClient from '../../FirebaseClient';
@@ -7,20 +7,23 @@ import { /*registrarUsuario,*/ listarUsuarios } from '../../context/UsuarioActio
 import Conteudo from '../../componentes/Conteudo';
 import Mensagem from '../../componentes/Mensagem';
 
-import ConteudoTitulo from '../../componentes/TituloConteudo'
+//import ConteudoTitulo from '../../componentes/TituloConteudo'
 import Linha from '../../componentes/Linha'
 import Grade from '../../componentes/Grade'
 import MaterialTable from 'material-table'
-//import UsuarioForm from './UsuarioForm'
+import UsuarioForm from './UsuarioForm'
 import Loader from '../../componentes/Loader'
 import { localization, materiaTableOptions } from '../../estilos'
 import { Edit, Delete, Add, Refresh } from '@material-ui/icons'
+import { objetosParaLista } from '../../Utils';
 
 export default function Main() {
     FirebaseClient();
     const { dispatch, state } = useContext(GlobalContext);
+    const formUsuario = useRef();
     //const history = useHistory();
     const mensagem = useRef();
+    const [Usuarios, setUsuarios] = useState([]);
 
     const tabColunas = [
         { title: state.legenda.codigo, field: 'id' },
@@ -30,10 +33,14 @@ export default function Main() {
 
     useEffect(() => {
         document.title = `${state.legenda.nomeAplicativo} - ${state.legenda.usuariosTitulo}`
-        listarUsuarios(dispatch, mensagem);
         if (!state.estaRegistrandoUsuario) {
+            listarUsuarios(dispatch, mensagem);
         }
     }, [state.estaRegistrandoUsuario, dispatch, state.legenda.nomeAplicativo, state.legenda.usuariosTitulo]);
+
+    useEffect(() => {
+        setUsuarios(objetosParaLista(state.usuarios));
+    }, [state.usuarios]);
 
     // const incluirUsuario = () => {
     //     const usuario = {
@@ -54,22 +61,21 @@ export default function Main() {
         // var usuario = {
         //     SegundosAtualizar: 60
         // }
-        // formUsuario.current.abrirUsuarioForm(usuario, true)
+        //formUsuario.current.abrirUsuarioForm(usuario, true)
     }
 
 
     const editar = (event, rowData) => {
-        alert('Editar');
-        // var usuario = {
-        //     UsuarioID: rowData.UsuarioID,
-        //     Nome: rowData.Nome,
-        //     Login: rowData.Login,
-        //     Senha: rowData.Senha,
-        //     Matricula: rowData.Matricula,
-        //     SegundosAtualizar: rowData.SegundosAtualizar,
-        //     UsuarioGrupos: rowData.UsuarioGrupos
-        // }
-        // formUsuario.current.abrirUsuarioForm(usuario, true)
+        var usuario = {
+            id: rowData.id,
+            nome: rowData.nome,
+            email: rowData.email,
+            ativo: rowData.ativo
+        }
+        const sUsuario = JSON.stringify(usuario);
+        //alert(sUsuario);
+        console.log(sUsuario);
+        formUsuario.current.abrirUsuarioForm(usuario);
     }
 
     const excluir = (event, rowData) => {
@@ -86,23 +92,23 @@ export default function Main() {
         // formUsuario.current.abrirUsuarioForm(usuario, false)
     }
 
-    const dados = () => {
-        if (state.usuarios) {
-            const usuarios = state.usuarios;
+    // const dados = () => {
+    //     if (state.usuarios) {
+    //         const usuarios = state.usuarios;
             
-            const lista = Object.keys(usuarios).map(id => {
-                let usuario = usuarios[id];
-                usuario.id = id;
-                return usuario
-            });
+    //         const lista = Object.keys(usuarios).map(id => {
+    //             let usuario = usuarios[id];
+    //             usuario.id = id;
+    //             return usuario
+    //         });
     
-            //console.log(JSON.stringify(lista));
+    //         //console.log(JSON.stringify(lista));
         
-            return lista;
-        }
+    //         return lista;
+    //     }
 
-        return [];
-    }
+    //     return [];
+    // }
 
 
     return (
@@ -121,7 +127,7 @@ export default function Main() {
                             title={state.legenda.usuariosTituloLista}
                             columns={tabColunas}
                             localization={localization}
-                            data={dados()}
+                            data={Usuarios}
                             options={materiaTableOptions}
                             actions={[
                                 {
@@ -150,8 +156,11 @@ export default function Main() {
                         />
                     </Grade>
                 </Linha>
+                <UsuarioForm
+                    ref={formUsuario}
+                />
+                <Mensagem ref={mensagem} />
             </Conteudo>
-            <Mensagem ref={mensagem} />
         </div>
     )
 }

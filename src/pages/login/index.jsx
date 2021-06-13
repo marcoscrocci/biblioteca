@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
-    Button,
+    //Button,
+    Link,
     Dialog,
     DialogContent,
     Paper,
@@ -19,6 +20,7 @@ import { botaoEstilo, dialogFormEstilo } from '../../estilos'
 //import { criptografar, guardar, recuperar, descriptografar } from '../../Utils'
 import Mensagem from '../../componentes/Mensagem'
 import Loader from '../../componentes/Loader'
+import Botao from '../../componentes/Botao'
 import { Fullscreen } from '@material-ui/icons'
 import { isMobile } from 'react-device-detect'
 //import logoihsl from '../recursos/logoihsl.jpg'
@@ -42,12 +44,15 @@ const styles = (theme) => ({
         right: theme.spacing(1),
         top: theme.spacing(1),
         color: theme.palette.grey[500],
-    },
+    }
 });
 
 const useStyles = makeStyles(() => ({
     paper: { maxWidth: '470px' }
-}))
+}));
+
+
+
 
 const DialogTitle = withStyles(styles)((props) => {
     const { children, classes, onFullscreen, ...other } = props;
@@ -84,8 +89,13 @@ export default function Login() {
     const classes = useStyles();
     //const history = useHistory();
 
+    const estilos = {
+        solicitarAcesso: { marginBottom: 15 }
+    }
+
     const [Email, setEmail] = useState();
     const [Senha, setSenha] = useState();
+    const [Solicitar, setSolicitar] = useState(false);
 
     useEffect(() => {
         setFullscreen(isMobile);
@@ -178,17 +188,27 @@ export default function Login() {
                                 required={true}
                             />
                         </Linha>
-                        <div className="botoes-recipiente">
-                            <Button
-                                //type="submit"
-                                color="primary"
-                                variant="contained"
-                                style={botaoEstilo}
-                                onClick={entrar}
-                            >
-                                {obterLegenda('entrarConfirmar')}
-                            </Button>
-                        </div>
+                        <Linha>
+                            <div className="botoes-recipiente">
+                                <Botao
+                                    //type="submit"
+                                    cor="primary"
+                                    variante="contained"
+                                    estilo={botaoEstilo}
+                                    aoClicar={entrar}
+                                    texto={obterLegenda('entrarConfirmar')}
+                                />
+                            </div>
+                        </Linha>
+                        <Linha>
+                            <div style={estilos.solicitarAcesso}>
+                                {Solicitar ?
+                                    <Link href="#" onClick={() => setSolicitar(!Solicitar)}>Eu já tenho acesso ao sistema</Link>
+                                    :
+                                    <Link href="#" onClick={() => setSolicitar(!Solicitar)}>Solicitar acesso ao sistema para um administrador</Link>
+                                }
+                            </div>
+                        </Linha>
                     </form>
                 </DialogContent>
             </Dialog>
@@ -197,3 +217,4 @@ export default function Login() {
         </div>
     )
 }
+

@@ -16,10 +16,15 @@
         "emailInvalido": "O endereço de e-mail é inválido",
         "usuariosTitulo": "Usuários",
         "usuariosTituloLista": "Lista de Usuários",
+        "adicionarUsuario": "Adicionar Usuário",
+        "editarUsuario": "Editar Usuário",
+        "excluirUsuario": "Excluir Usuário",
         "codigo": "Código",
         "nome": "Nome",
         "email": "E-mail",
         "adicionar": "Adicionar",
-        "atualizar": "Atualizar"
+        "atualizar": "Atualizar",
+        "confirmar": "Confirmar",
+        "cancelar": "Cancelar"
     }
 }
