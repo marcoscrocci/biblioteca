@@ -11,7 +11,7 @@ import Linha from '../../componentes/Linha'
 import { botaoEstilo, dialogFormEstilo, dialogFormExcluirEstilo } from '../../estilos'
 import GlobalContext from '../../context/GlobalContext'
 //import { criptografar } from '../Utils'
-//import { salvarUsuario } from '../../context/UsuarioActions'
+import { registrarUsuario } from '../../context/UsuarioActions'
 import Mensagem from '../../componentes/Mensagem'
 import { Fullscreen } from '@material-ui/icons'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -67,16 +67,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const UsuarioForm = forwardRef((props, ref) => {
-    const { state/*, dispatch*/ } = useContext(GlobalContext)
+    const { state, dispatch } = useContext(GlobalContext);
     const [open, setOpen] = useState(false);
-    const [fullscreen, setFullscreen] = useState(false)
-    const mensagem = useRef()
+    const [fullscreen, setFullscreen] = useState(false);
+    const mensagem = useRef();
     //const gruposDeAcesso = useRef()
 
     const [ID, setID] = useState(null);
     const [Nome, setNome] = useState(null);
     const [Email, setEmail] = useState(null);
     const [Ativo, setAtivo] = useState(null);
+    const [Senha, setSenha] = useState(null);
+    const [Confirmacao, setConfirmacao] = useState(null);
     
 
     useImperativeHandle(ref, () => ({
@@ -88,6 +90,9 @@ const UsuarioForm = forwardRef((props, ref) => {
             setNome(usuario.nome);
             setEmail(usuario.email);
             setAtivo(usuario.ativo);
+            setSenha(null);
+            setConfirmacao(null);
+
 
             //setGruposSelecionados(usuario.UsuarioGrupos)
             // let GruposIdDesc = []
@@ -139,12 +144,33 @@ const UsuarioForm = forwardRef((props, ref) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        // const EnviarGrupos = UsuarioGrupos.map((Grupo) => {
-        //     return {
-        //         GrupoID: Grupo.id,
-        //         Nome: Grupo.descricao
-        //     }
-        // })
+
+        if (ID) {
+            if (!Nome || !Email) {
+                return false;
+            }
+            alert("Alterar...")
+        } else {
+            if (!Nome || !Email || !Senha) {
+                return false;
+            };
+    
+            if (Senha !== Confirmacao) {
+                mensagem.current.mostrarMensagem({
+                    tipo: 'error',
+                    texto: state.legenda.usuarioSenhaConfirmacao
+                });
+                return false
+            };
+
+            const usuario = {
+                nome: Nome,
+                email: Email,
+                senha: Senha
+            }
+
+            registrarUsuario(dispatch, usuario, mensagem);
+        }
         
         // const usuario = {
         //     UsuarioID: UsuarioID,
@@ -225,7 +251,7 @@ const UsuarioForm = forwardRef((props, ref) => {
                                 valor={Nome}
                                 onChange={(e) => setNome(e.target.value)}
                                 nome="Nome"
-                                required={true}
+                                requerido={true}
                                 somenteLeitura={!Ativo}
                             />
                             <EntradaTexto
@@ -235,10 +261,36 @@ const UsuarioForm = forwardRef((props, ref) => {
                                 valor={Email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 nome="Email"
-                                required={true}
+                                requerido={true}
                                 somenteLeitura={!Ativo}
                             />
                         </Linha>
+                        {!ID && 
+                            <Linha>
+                                <EntradaTexto
+                                    id="senha"
+                                    tipo="password"
+                                    colunas="12"
+                                    rotulo={state.legenda.senha}
+                                    valor={Senha}
+                                    onChange={(e) => setSenha(e.target.value)}
+                                    nome="Senha"
+                                    requerido={true}
+                                    somenteLeitura={!Ativo}
+                                />
+                                <EntradaTexto
+                                    id="confirmacao"
+                                    tipo="password"
+                                    colunas="12"
+                                    rotulo={state.legenda.confirmarSenha}
+                                    valor={Confirmacao}
+                                    onChange={(e) => setConfirmacao(e.target.value)}
+                                    nome="Confirmacao"
+                                    requerido={true}
+                                    somenteLeitura={!Ativo}
+                                />
+                            </Linha>
+                        }
                         {/* <div className="margem-inferior">
                             <Linha>
                                 {state.estaListandoGrupos && <Loader />}

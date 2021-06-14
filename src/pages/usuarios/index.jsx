@@ -57,11 +57,11 @@ export default function Main() {
     }
 
     const adicionar = () => {
-        alert('adicionar');
-        // var usuario = {
-        //     SegundosAtualizar: 60
-        // }
-        //formUsuario.current.abrirUsuarioForm(usuario, true)
+        //alert('adicionar');
+        var usuario = {
+            ativo: 1
+        };
+        formUsuario.current.abrirUsuarioForm(usuario)
     }
 
 

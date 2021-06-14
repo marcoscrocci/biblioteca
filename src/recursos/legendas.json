@@ -22,9 +22,12 @@
         "codigo": "Código",
         "nome": "Nome",
         "email": "E-mail",
+        "senha": "Senha",
+        "confirmarSenha": "Confirmar Senha",
         "adicionar": "Adicionar",
         "atualizar": "Atualizar",
         "confirmar": "Confirmar",
-        "cancelar": "Cancelar"
+        "cancelar": "Cancelar",
+        "usuarioSenhaConfirmacao": "A senha e a confirmação da senha não conferem"
     }
 }

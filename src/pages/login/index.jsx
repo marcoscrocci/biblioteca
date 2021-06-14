@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from 'react'
 import {
     //Button,
-    Link,
+    //Link,
     Dialog,
     DialogContent,
     Paper,
@@ -89,13 +89,13 @@ export default function Login() {
     const classes = useStyles();
     //const history = useHistory();
 
-    const estilos = {
-        solicitarAcesso: { marginBottom: 15 }
-    }
+    // const estilos = {
+    //     solicitarAcesso: { marginBottom: 15 }
+    // }
 
     const [Email, setEmail] = useState();
     const [Senha, setSenha] = useState();
-    const [Solicitar, setSolicitar] = useState(false);
+    //const [Solicitar, setSolicitar] = useState(false);
 
     useEffect(() => {
         setFullscreen(isMobile);
@@ -200,7 +200,7 @@ export default function Login() {
                                 />
                             </div>
                         </Linha>
-                        <Linha>
+                        {/* <Linha>
                             <div style={estilos.solicitarAcesso}>
                                 {Solicitar ?
                                     <Link href="#" onClick={() => setSolicitar(!Solicitar)}>Eu já tenho acesso ao sistema</Link>
@@ -208,7 +208,7 @@ export default function Login() {
                                     <Link href="#" onClick={() => setSolicitar(!Solicitar)}>Solicitar acesso ao sistema para um administrador</Link>
                                 }
                             </div>
-                        </Linha>
+                        </Linha> */}
                     </form>
                 </DialogContent>
             </Dialog>
