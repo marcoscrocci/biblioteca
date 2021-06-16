@@ -6,7 +6,7 @@ import { useHistory } from "react-router-dom";
 //import FirebaseClient from '../../FirebaseClient';
 // import legendas from '../../recursos/legendas.json';
 // import b64 from 'base-64';
-import firebaseApi from '../../FirebaseApi';
+import Api from '../../Api';
 
 export default function TestFirebase(props) {
     //FirebaseClient();
@@ -22,19 +22,19 @@ export default function TestFirebase(props) {
 
 
     const autenticarUsuario = () => {
-        firebaseApi.autenticarUsuario();
+        Api.autenticarUsuario();
     }
 
     const verificarUsuarioAutenticado = () => {
-        firebaseApi.verificarUsuarioAutenticado();
+        Api.verificarUsuarioAutenticado();
     }
 
     const usuarioSair = () => {
-        firebaseApi.usuarioSair();
+        Api.usuarioSair();
     }
 
     const adicionarTeste = () => {
-        firebaseApi.adicionarTeste();
+        Api.adicionarTeste();
     }
 
     /*

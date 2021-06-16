@@ -8,12 +8,12 @@ export default function Main() {
     const { dispatch, state } = useContext(GlobalContext);
     const history = useHistory();
 
-    const usuarioSair = () => {
-        const usuario = firebase.auth();
-        usuario.signOut();
-        //history.push('/');
-        sairUsuario(dispatch);
-    }
+    // const usuarioSair = () => {
+    //     const usuario = firebase.auth();
+    //     usuario.signOut();
+    //     //history.push('/');
+    //     sairUsuario(dispatch);
+    // }
     
     //console.log(state.usuario)
 
@@ -23,8 +23,8 @@ export default function Main() {
                 <p>Principal</p>
                 <button onClick={() => history.push('/testfirebase')}>Teste Firebase</button>
                 <br />
-                <button onClick={() => usuarioSair()}>Usuário - Sair</button>
-                <br />
+                {/* <button onClick={() => usuarioSair()}>Usuário - Sair</button>
+                <br /> */}
 
                 <br />
                 <br />

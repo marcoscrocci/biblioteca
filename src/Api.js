@@ -12,6 +12,7 @@ const firebaseConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
