@@ -1,7 +1,4 @@
 import React, { useContext, useRef, useEffect, useState } from 'react';
-//import { useHistory } from "react-router-dom";
-//import firebase from 'firebase/app';
-import FirebaseClient from '../../FirebaseClient';
 import GlobalContext from '../../context/GlobalContext';
 import { /*registrarUsuario,*/ listarUsuarios } from '../../context/UsuarioActions';
 import Conteudo from '../../componentes/Conteudo';
@@ -18,7 +15,6 @@ import { Edit, Delete, Add, Refresh } from '@material-ui/icons'
 import { objetosParaLista } from '../../Utils';
 
 export default function Main() {
-    FirebaseClient();
     const { dispatch, state } = useContext(GlobalContext);
     const formUsuario = useRef();
     //const history = useHistory();

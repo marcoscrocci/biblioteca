@@ -1,5 +1,3 @@
-//import firebase from 'firebase/app';
-//import FirebaseClient from './../FirebaseClient'
 import legendas from '../recursos/legendas.json';
 
 
@@ -42,19 +40,10 @@ export const mudarBarraLateral = (dispatch, valor) => {
 
 export const carregarLegendas = (dispatch, idioma = "portugues") => {
     try {
-        //FirebaseClient();
         dispatch({
             type: 'carregandoLegendas'
         });
 
-        // firebase.database().ref("legendas").child(idioma).get().then((dados) => {
-        //     const legenda = JSON.parse(JSON.stringify(dados));
-        //     //setLanguages(legenda);    
-        //     dispatch({ 
-        //         type: 'legendasCarregadas',
-        //         payload: legenda
-        //     });
-        // })
         let legenda
         if (idioma === "portugues") {
             legenda = legendas.portugues;

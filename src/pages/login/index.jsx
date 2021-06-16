@@ -31,8 +31,6 @@ import { isMobile } from 'react-device-detect'
 import { autenticarUsuario } from '../../context/UsuarioActions'
 import GlobalContext from '../../context/GlobalContext'
 
-//import firebase from 'firebase/app';
-//import FirebaseClient from '../../FirebaseClient'
 
 const styles = (theme) => ({
     root: {
@@ -81,7 +79,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 export default function Login() {
-    //FirebaseClient();
     const { state, dispatch } = useContext(GlobalContext);
     const [open, setOpen] = useState(false);
     const [fullscreen, setFullscreen] = useState(false)
