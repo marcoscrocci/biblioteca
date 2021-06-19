@@ -21,8 +21,10 @@ export default function TestFirebase(props) {
     // const [UsuarioDados, setUsuarioDados] = useState(null);
 
 
-    const autenticarUsuario = () => {
-        Api.autenticarUsuario();
+    const autenticarUsuario = async () => {
+        console.log('Ponto 1');
+        await Api.autenticarUsuario();
+        console.log('Ponto 2');
     }
 
     const verificarUsuarioAutenticado = () => {

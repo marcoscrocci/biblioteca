@@ -1,6 +1,7 @@
 import firebase from 'firebase/app';
 import 'firebase/firebase-auth';
 import 'firebase/firebase-firestore';
+import b64 from 'base-64';
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
@@ -20,20 +21,30 @@ const metodos = {
     autenticarUsuario: async () => {
         var email = "curso.firebase@gmail.com";
         var senha = "secret12345";
-        const usuario = firebaseApp.auth();
-        usuario.signInWithEmailAndPassword(email, senha)
-        .then(() => {
-            alert("Usuário autenticado com sucesso!");
-        })
-        .catch((error) => {
-            alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        const firebaseAuth = firebaseApp.auth();
+
+        return new Promise(function (resolve, reject) {
+            firebaseAuth.signInWithEmailAndPassword(email, senha)
+            .then(() => {
+                const usuario = firebaseAuth.currentUser;
+                console.log(JSON.stringify(usuario.email));
+                let emailB64 = b64.encode(usuario.email);
+                console.log('emailB64 =', emailB64);
+                resolve(usuario);
+            })
+            .catch((error) => {
+                reject(error);
+                //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            });
+
         });
+
     },
     verificarUsuarioAutenticado: async () => {
-        const usuario = firebaseApp.auth();
-        const usuarioAtual = usuario.currentUser;
-        if (usuarioAtual) {
-            alert(JSON.stringify(usuarioAtual));
+        const firebaseAuth = firebaseApp.auth();
+        const usuario = firebaseAuth.currentUser;
+        if (usuario) {
+            alert(JSON.stringify(usuario));
         } else {
             alert("Não há usuários autenticados no Firebase!");
         }

@@ -116,6 +116,7 @@ export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) =
         firebaseAuth.signInWithEmailAndPassword(email, senha)
         .then(() => {
             const usuario = firebaseAuth.currentUser;
+            console.log(JSON.stringify(usuario.email));
             let emailB64 = b64.encode(usuario.email);
             firebase.database().ref(`/usuarios/${emailB64}`)
             .on('value', snapshot => {
