@@ -23,7 +23,20 @@ export default function TestFirebase(props) {
 
     const autenticarUsuario = async () => {
         console.log('Ponto 1');
-        await Api.autenticarUsuario();
+        const email = "curso.firebase@gmail.com";
+        const senha = "secret12345";
+        const usuario = {
+            email, 
+            senha
+        }
+        Api.autenticarUsuario(usuario)
+        .then((teste) => {
+            console.log('then =', teste.email);
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        });
         console.log('Ponto 2');
     }
 

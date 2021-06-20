@@ -18,19 +18,41 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 const db = firebaseApp.firestore();
 
 const metodos = {
-    autenticarUsuario: async () => {
-        var email = "curso.firebase@gmail.com";
-        var senha = "secret12345";
+    autenticarUsuario: async ({ email, senha }) => {
         const firebaseAuth = firebaseApp.auth();
-
         return new Promise(function (resolve, reject) {
             firebaseAuth.signInWithEmailAndPassword(email, senha)
             .then(() => {
                 const usuario = firebaseAuth.currentUser;
-                console.log(JSON.stringify(usuario.email));
+                //console.log(JSON.stringify(usuario.email));
                 let emailB64 = b64.encode(usuario.email);
-                console.log('emailB64 =', emailB64);
-                resolve(usuario);
+                //console.log('emailB64 =', emailB64);
+
+                var usuarioInfo = db.collection("usuarios").doc(emailB64);
+                usuarioInfo.get().then((doc) => {
+                    if (doc.exists) {
+                        let usuarioAutenticado = doc.data();
+                        usuarioAutenticado.id = emailB64; // id do documento
+                        usuarioAutenticado.uid = usuario.uid; // uid do usuário no firebase
+                        //console.log("Document data:", usuarioAutenticado);
+                        resolve(usuarioAutenticado);
+                    } else {
+                        // doc.data() will be undefined in this case
+                        console.log("No such document!");
+                        const error = {
+                            code: 'auth/user-info-not-found',
+                            message: 'User information not found'
+                        } 
+                        reject(error);
+                    }
+                }).catch((error) => {
+                    console.log("Error getting user information:", error);
+                    const customError = {
+                        code: 'auth/error-get-user-info',
+                        message: error.message
+                    }
+                    reject(customError);
+                });                
             })
             .catch((error) => {
                 reject(error);

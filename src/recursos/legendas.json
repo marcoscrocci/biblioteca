@@ -28,6 +28,9 @@
         "atualizar": "Atualizar",
         "confirmar": "Confirmar",
         "cancelar": "Cancelar",
-        "usuarioSenhaConfirmacao": "A senha e a confirmação da senha não conferem"
+        "usuarioSenhaConfirmacao": "A senha e a confirmação da senha não conferem",
+        "informacoesUsuarioNaoEncontrada": "As informações do usuário não foram encontradas no banco de dados",
+        "erroObterInformacoesUsuario": "Ocorreu um erro ao tentar obter as informações do usuário no banco de dados",
+        "erroAutenticacaoUsuario": "Ocorreu um erro na autenticação do usuário"
     }
 }

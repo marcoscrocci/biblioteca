@@ -2,6 +2,7 @@ import firebase from 'firebase/app';
 import FirebaseClient from './../FirebaseClient'
 import { guardar, recuperar, remover, mostrarMensagem } from '../Utils'
 import b64 from 'base-64';
+import Api from '../Api';
 
 export const actions = {
 
@@ -106,49 +107,36 @@ export const actions = {
 export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) => {
     try {
         //console.log('autenticarUsuario - email =', email, 'senha =', senha);
-        const {email, senha} = usuario;
         dispatch({
             type: 'autenticandoUsuario'
         });
-        FirebaseClient();
-        const firebaseAuth = firebase.auth();
-        
-        firebaseAuth.signInWithEmailAndPassword(email, senha)
-        .then(() => {
-            const usuario = firebaseAuth.currentUser;
-            console.log(JSON.stringify(usuario.email));
-            let emailB64 = b64.encode(usuario.email);
-            firebase.database().ref(`/usuarios/${emailB64}`)
-            .on('value', snapshot => {
-                let usuarioInfo = snapshot.val();
-                usuarioInfo.uid = usuario.uid;
-                guardar('biblioteca_usuario', usuarioInfo);
-                dispatch({ 
-                    type: 'usuarioAutenticado',
-                    payload: usuarioInfo
-                });
-    
+                
+        Api.autenticarUsuario(usuario)
+        .then((usuarioAutenticado) => {
+            //console.log('Usuário Autenticado =', usuarioAutenticado);
+            guardar('biblioteca_usuario', usuarioAutenticado);
+            dispatch({ 
+                type: 'usuarioAutenticado',
+                payload: usuarioAutenticado
             });
-
-
-            //alert("Usuário autenticado com sucesso!");
         })
         .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
             //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
             dispatch({
                 type: 'usuarioNaoAutenticado',
                 payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
             });
         });
-
-
     } catch (error) {
-        //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+        const customError = {
+            code: 'auth/error-user-auth',
+            message: error.message
+        }
+        console.log(customError);
         dispatch({
             type: 'usuarioNaoAutenticado',
-            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: customError.code, texto: customError.message } }
         });
     }
 }
