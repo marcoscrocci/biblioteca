@@ -15,7 +15,8 @@ const initialState = {
             Caminho: 'livros',
             Ordem: 1,
             SubMenuID: null,
-            SubMenu: []
+            SubMenu: [],
+            Administrador: false
         },
         {
             MenuID: 2,
@@ -24,7 +25,8 @@ const initialState = {
             Caminho: 'usuarios',
             Ordem: 2,
             SubMenuID: null,
-            SubMenu: []
+            SubMenu: [],
+            Administrador: true
         }
     ]
 }

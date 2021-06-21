@@ -1,24 +1,62 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from "react-router-dom";
 //import GlobalContext from '../../context/GlobalContext'
-import firebase from 'firebase/app';
-import 'firebase/firestore';
-import FirebaseClient from '../../FirebaseClient';
-import legendas from '../../recursos/legendas.json';
-import b64 from 'base-64';
+//import firebase from 'firebase/app';
+//import 'firebase/firestore';
+//import FirebaseClient from '../../FirebaseClient';
+// import legendas from '../../recursos/legendas.json';
+// import b64 from 'base-64';
+import Api from '../../Api';
 
 export default function TestFirebase(props) {
-    FirebaseClient();
+    //FirebaseClient();
     //const { state, dispatch } = useContext(GlobalContext);
     const history = useHistory();
 
-    const [Pontuacao, setPotuacao] = useState(null);
-    const [UsuarioAutenticado, setUsuarioAutenticado] = useState(null);
-    const [Funcionarios, setFuncionarios] = useState(null);
-    const [Languages, setLanguages] = useState(null);
-    const [Lista, setLista] = useState(null);
-    const [UsuarioDados, setUsuarioDados] = useState(null);
+    // const [Pontuacao, setPotuacao] = useState(null);
+    // const [UsuarioAutenticado, setUsuarioAutenticado] = useState(null);
+    // const [Funcionarios, setFuncionarios] = useState(null);
+    // const [Languages, setLanguages] = useState(null);
+    // const [Lista, setLista] = useState(null);
+    // const [UsuarioDados, setUsuarioDados] = useState(null);
 
+
+    const autenticarUsuario = async () => {
+        console.log('Ponto 1');
+        const email = "curso.firebase@gmail.com";
+        const senha = "secret12345";
+        const usuario = {
+            email, 
+            senha
+        }
+        Api.autenticarUsuario(usuario)
+        .then((teste) => {
+            console.log('then =', teste.email);
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        });
+        console.log('Ponto 2');
+    }
+
+    const verificarUsuarioAutenticado = () => {
+        Api.verificarUsuarioAutenticado();
+    }
+
+    const usuarioSair = () => {
+        Api.usuarioSair();
+    }
+
+    const adicionarTeste = () => {
+        Api.adicionarTeste();
+    }
+
+    const listarUsuarios = () => {
+        Api.listarUsuarios();
+    }
+
+    /*
     const salvarDados = () => {
         //alert("Salvar Dados");
         var database = firebase.database();
@@ -160,11 +198,7 @@ export default function TestFirebase(props) {
         
         setLanguages(legendas);
         
-        /*
-        legenda.on('value', (snapshot) => {
-            setLanguages(snapshot.val());
-        })
-        */
+        
 
     }
 
@@ -175,15 +209,7 @@ export default function TestFirebase(props) {
         })
     }
 
-    const verificarUsuarioAutenticado = () => {
-        const usuario = firebase.auth();
-        const usuarioAtual = usuario.currentUser;
-        if (usuarioAtual) {
-            alert(JSON.stringify(usuarioAtual));
-        } else {
-            alert("Não há usuários autenticados no Firebase!");
-        }
-    }
+
 
     useEffect(() => {
         const usuario = firebase.auth();
@@ -198,18 +224,7 @@ export default function TestFirebase(props) {
         usuario.signOut();
     }
 
-    const autenticarUsuario = () => {
-        var email = "curso.firebase@gmail.com";
-        var senha = "secret12345";
-        const usuario = firebase.auth();
-        usuario.signInWithEmailAndPassword(email, senha)
-            .then(() => {
-                alert("Usuário autenticado com sucesso!");
-            })
-            .catch((error) => {
-                alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            });
-    }
+
 
     const getUsuario = () => {        
         const firebaseAuth = firebase.auth();
@@ -229,15 +244,28 @@ export default function TestFirebase(props) {
     const createCollection = () => {
         //alert('teste');
     }
-
+    */
 
     return (
         <div style={{ margin: 20 }}>
             <p>Teste do Firebase</p>
-            <p>Pontuação: {Pontuacao}</p>
+            {/* <p>Pontuação: {Pontuacao}</p>
             
-            <p>Usuário Autenticado: {UsuarioAutenticado && UsuarioAutenticado.email}</p>
-            <button onClick={() => salvarDados()}>Salvar Dados</button>
+            <p>Usuário Autenticado: {UsuarioAutenticado && UsuarioAutenticado.email}</p> */}
+            <br />
+            <button onClick={() => history.push('/')}>Principal</button>
+            <br />
+            <button onClick={() => autenticarUsuario()}>Usuário - Autenticar</button>            
+            <br />
+            <button onClick={() => verificarUsuarioAutenticado()}>Verificar Usuário Autenticado</button>
+            <br />
+            <button onClick={() => usuarioSair()}>Usuário - Sair</button>
+            <br />
+            <button onClick={() => adicionarTeste()}>Adicionar Teste</button>
+            <br />
+            <button onClick={() => listarUsuarios()}>Listar Usuários</button>
+            
+            {/* <button onClick={() => salvarDados()}>Salvar Dados</button>
             <br />
             <button onClick={() => removerDados()}>Remover Dados</button>
             <br />
@@ -254,22 +282,15 @@ export default function TestFirebase(props) {
             <button onClick={() => getLanguages()}>Get Languages</button>
             <br />
             <button onClick={() => cadastrarUsuario()}>Criar Usuário</button>
-            <br />
-            <button onClick={() => verificarUsuarioAutenticado()}>Verificar Usuário Autenticado</button>
-            <br />
-            <button onClick={() => usuarioSair()}>Usuário - Sair</button>
-            <br />
-            <button onClick={() => autenticarUsuario()}>Usuário - Autenticar</button>
+
             <br />
             <button onClick={() => incluirPorJson()}>Gravar Idiomas</button>
             <br />
             <button onClick={() => incluirListaPorJson()}>Gravar Lista por Json</button>
             <br />
-            <button onClick={() => history.push('/')}>Principal</button>
-            <br />
             <button onClick={() => getUsuario()}>Get Usuario</button>
             <br />
-            <button onClick={() => createCollection()}>Criar Coleção</button>
+            <button onClick={() => createCollection()}>Criar Coleção</button> 
             <br />
             <br />
             <label>UsuarioDados:</label><br />
@@ -303,6 +324,7 @@ export default function TestFirebase(props) {
                 readOnly={true}
                 value={JSON.stringify(Lista, null, 4)} 
             />
+            */}
         </div>
     )
 }

@@ -23,11 +23,22 @@
         "nome": "Nome",
         "email": "E-mail",
         "senha": "Senha",
+        "administrador": "Administrador",
         "confirmarSenha": "Confirmar Senha",
         "adicionar": "Adicionar",
         "atualizar": "Atualizar",
         "confirmar": "Confirmar",
         "cancelar": "Cancelar",
-        "usuarioSenhaConfirmacao": "A senha e a confirmação da senha não conferem"
+        "usuarioSenhaConfirmacao": "A senha e a confirmação da senha não conferem",
+        "informacoesUsuarioNaoEncontrada": "As informações do usuário não foram encontradas no banco de dados",
+        "erroObterInformacoesUsuario": "Ocorreu um erro ao tentar obter as informações do usuário no banco de dados",
+        "erroAutenticacaoUsuario": "Ocorreu um erro na autenticação do usuário",
+        "erroListarUsuarios": "Ocorreu um erro ao obter a lista de usuários",
+        "erroAtualizarUsuario": "Ocorreu um erro ao atualizar as informações do usuário no banco de dados",
+        "erroAdicionarUsuario": "Ocorreu um erro ao adicionar as informações do usuário no banco de dados",
+        "erroUsuarioDesabilitado": "Usuário desativado",
+        "dicaAdministrador": "Acesso de administrador do sistema",
+        "sim": "Sim",
+        "nao": "Não"
     }
 }

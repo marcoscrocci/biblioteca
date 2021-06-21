@@ -48,10 +48,15 @@ export default function Menu() {
     const carregarMenu = (menuItens) => {
         return (
             menuItens && menuItens.map((menu) => {
-                if (menu.menu_sub && menu.menu_sub.length > 0) {
-                    return carregarSubMenu(menu.Descricao, menu.SubMenu, menu.Icone)
+                //console.log(JSON.stringify(state.usuario));
+                if (state.usuario.administrador || !menu.Administrador) {
+                    if (menu.menu_sub && menu.menu_sub.length > 0) {
+                        return carregarSubMenu(menu.Descricao, menu.SubMenu, menu.Icone);
+                    } else {
+                        return criarMenuItem(menu);
+                    }
                 } else {
-                    return criarMenuItem(menu)
+                    return false;
                 }
             })
         )

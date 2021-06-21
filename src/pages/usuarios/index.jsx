@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useEffect, useState } from 'react';
+import React, { useContext, useRef, useEffect } from 'react';
 import GlobalContext from '../../context/GlobalContext';
 import { /*registrarUsuario,*/ listarUsuarios } from '../../context/UsuarioActions';
 import Conteudo from '../../componentes/Conteudo';
@@ -12,31 +12,32 @@ import UsuarioForm from './UsuarioForm'
 import Loader from '../../componentes/Loader'
 import { localization, materiaTableOptions } from '../../estilos'
 import { Edit, Delete, Add, Refresh } from '@material-ui/icons'
-import { objetosParaLista } from '../../Utils';
+//import { objetosParaLista } from '../../Utils';
 
 export default function Main() {
     const { dispatch, state } = useContext(GlobalContext);
     const formUsuario = useRef();
     //const history = useHistory();
     const mensagem = useRef();
-    const [Usuarios, setUsuarios] = useState([]);
+    //const [Usuarios, setUsuarios] = useState([]);
 
     const tabColunas = [
         { title: state.legenda.codigo, field: 'id' },
         { title: state.legenda.nome, field: 'nome' },
-        { title: state.legenda.email, field: 'email' }
+        { title: state.legenda.email, field: 'email' },
+        { title: state.legenda.administrador, field: 'administradorLegenda' }
     ]
 
     useEffect(() => {
         document.title = `${state.legenda.nomeAplicativo} - ${state.legenda.usuariosTitulo}`
-        if (!state.estaRegistrandoUsuario) {
-            listarUsuarios(dispatch, mensagem);
+        if (!state.estaSalvandoUsuario) {
+            listarUsuarios(dispatch, mensagem, state.legenda);
         }
-    }, [state.estaRegistrandoUsuario, dispatch, state.legenda.nomeAplicativo, state.legenda.usuariosTitulo]);
+    }, [state.estaSalvandoUsuario, dispatch, state.legenda.nomeAplicativo, state.legenda.usuariosTitulo, state.legenda]);
 
-    useEffect(() => {
-        setUsuarios(objetosParaLista(state.usuarios));
-    }, [state.usuarios]);
+    // useEffect(() => {
+    //     setUsuarios(objetosParaLista(state.usuarios));
+    // }, [state.usuarios]);
 
     // const incluirUsuario = () => {
     //     const usuario = {
@@ -48,13 +49,17 @@ export default function Main() {
     // }
 
     const atualizar = () => {
-        alert('atualizar')
-        listarUsuarios(dispatch, mensagem)
+        //alert('atualizar')
+        listarUsuarios(dispatch, mensagem, state.legenda);
     }
 
     const adicionar = () => {
         //alert('adicionar');
         var usuario = {
+            id: null,
+            nome: null,
+            email: null,
+            administrador: false,
             ativo: 1
         };
         formUsuario.current.abrirUsuarioForm(usuario)
@@ -66,26 +71,23 @@ export default function Main() {
             id: rowData.id,
             nome: rowData.nome,
             email: rowData.email,
+            administrador: rowData.administrador,
             ativo: rowData.ativo
         }
-        const sUsuario = JSON.stringify(usuario);
-        //alert(sUsuario);
-        console.log(sUsuario);
+
         formUsuario.current.abrirUsuarioForm(usuario);
     }
 
     const excluir = (event, rowData) => {
-        alert('Excluir');
-        // var usuario = {
-        //     UsuarioID: rowData.UsuarioID,
-        //     Nome: rowData.Nome,
-        //     Login: rowData.Login,
-        //     Senha: rowData.Senha,
-        //     Matricula: rowData.Matricula,
-        //     SegundosAtualizar: rowData.SegundosAtualizar,
-        //     UsuarioGrupos: rowData.UsuarioGrupos
-        // }
-        // formUsuario.current.abrirUsuarioForm(usuario, false)
+        var usuario = {
+            id: rowData.id,
+            nome: rowData.nome,
+            email: rowData.email,
+            administrador: rowData.administrador,
+            ativo: false
+        }
+
+        formUsuario.current.abrirUsuarioForm(usuario);
     }
 
     // const dados = () => {
@@ -123,7 +125,7 @@ export default function Main() {
                             title={state.legenda.usuariosTituloLista}
                             columns={tabColunas}
                             localization={localization}
-                            data={Usuarios}
+                            data={state.usuarios}
                             options={materiaTableOptions}
                             actions={[
                                 {

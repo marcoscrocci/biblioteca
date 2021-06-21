@@ -21,7 +21,7 @@ export function mostrarMensagem(msg, state) {
 		const { mensagemComponente, mensagemObjeto } = msg;
 		let { tipo, titulo, codigo, texto } = mensagemObjeto;
 		if (codigo) {
-			texto = traduzirMensagemFirebase(codigo, texto, state);
+			texto = traduzirMensagem(codigo, texto, state);
 		}
 		if (mensagemComponente && mensagemComponente.current) {
 			mensagemComponente.current.mostrarMensagem({
@@ -33,7 +33,7 @@ export function mostrarMensagem(msg, state) {
 	}
 }
 
-export function traduzirMensagemFirebase(codigo, texto, state) {
+export function traduzirMensagem(codigo, texto, state) {
 	switch (codigo) {
 		case "auth/wrong-password": 
 			return state.legenda.usuarioSenhaInvalidos; //"Usuário e/ou senha inválido(s)";
@@ -44,7 +44,21 @@ export function traduzirMensagemFirebase(codigo, texto, state) {
 		case "auth/email-already-in-use":
 			return state.legenda.emailEmUso; //"O endereço de e-mail já está sendo usado por outra conta.";
 		case "auth/invalid-email":
-			return state.legenda.emailInvalido
+			return state.legenda.emailInvalido;
+		case "auth/user-info-not-found":
+			return state.legenda.informacoesUsuarioNaoEncontrada;
+		case "auth/error-get-user-info":
+			return state.legenda.erroObterInformacoesUsuario;
+		case "auth/error-user-auth":
+			return state.legenda.erroAutenticacaoUsuario;
+		case "auth/error-get-user-list":
+			return state.legenda.erroListarUsuarios;
+		case "auth/error-update-user":
+			return state.legenda.erroAtualizarUsuario;
+		case "auth/error-add-user":
+			return state.legenda.erroAdicionarUsuario;
+		case "auth/user-disabled":
+			return state.legenda.erroUsuarioDesabilitado;
 		default:
 			return texto;
 	}

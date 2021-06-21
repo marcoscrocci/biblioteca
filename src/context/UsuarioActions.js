@@ -1,7 +1,8 @@
-import firebase from 'firebase/app';
-import FirebaseClient from './../FirebaseClient'
+//import firebase from 'firebase/app';
+//import FirebaseClient from './../FirebaseClient'
 import { guardar, recuperar, remover, mostrarMensagem } from '../Utils'
-import b64 from 'base-64';
+//import b64 from 'base-64';
+import Api from '../Api';
 
 export const actions = {
 
@@ -26,7 +27,7 @@ export const actions = {
     },
 
     usuarioNaoAutenticado(state, action) {
-        console.log('mostrarMensagem =', action.payload);
+        //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
             ...state,
@@ -44,15 +45,15 @@ export const actions = {
         }
     },
 
-    registrandoUsuario(state, action) {
+    salvandoUsuario(state, action) {
         return {
             ...state,
-            erroRegistrandoUsuario: false,
-            estaRegistrandoUsuario: true
+            erroSalvandoUsuario: false,
+            estaSalvandoUsuario: true
         }
     },
 
-    usuarioRegistrado(state, action) {
+    usuarioSalvo(state, action) {
         const mensagemComponente = action.payload;
         const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
@@ -64,13 +65,13 @@ export const actions = {
         }
     },
 
-    usuarioNaoRegistrado(state, action) {
+    usuarioNaoSalvo(state, action) {
         //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
             ...state,
-            erroRegistrandoUsuario: true,
-            estaRegistrandoUsuario: false
+            erroSalvandoUsuario: true,
+            estaSalvandoUsuario: false
         }
     },
 
@@ -106,48 +107,36 @@ export const actions = {
 export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) => {
     try {
         //console.log('autenticarUsuario - email =', email, 'senha =', senha);
-        const {email, senha} = usuario;
         dispatch({
             type: 'autenticandoUsuario'
         });
-        FirebaseClient();
-        const firebaseAuth = firebase.auth();
-        
-        firebaseAuth.signInWithEmailAndPassword(email, senha)
-        .then(() => {
-            const usuario = firebaseAuth.currentUser;
-            let emailB64 = b64.encode(usuario.email);
-            firebase.database().ref(`/usuarios/${emailB64}`)
-            .on('value', snapshot => {
-                let usuarioInfo = snapshot.val();
-                usuarioInfo.uid = usuario.uid;
-                guardar('biblioteca_usuario', usuarioInfo);
-                dispatch({ 
-                    type: 'usuarioAutenticado',
-                    payload: usuarioInfo
-                });
-    
+                
+        Api.autenticarUsuario(usuario)
+        .then((usuarioAutenticado) => {
+            //console.log('Usuário Autenticado =', usuarioAutenticado);
+            guardar('biblioteca_usuario', usuarioAutenticado);
+            dispatch({ 
+                type: 'usuarioAutenticado',
+                payload: usuarioAutenticado
             });
-
-
-            //alert("Usuário autenticado com sucesso!");
         })
         .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
             //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
             dispatch({
                 type: 'usuarioNaoAutenticado',
                 payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
             });
         });
-
-
     } catch (error) {
-        //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+        const customError = {
+            code: 'auth/error-user-auth',
+            message: error.message
+        }
+        console.log(customError);
         dispatch({
             type: 'usuarioNaoAutenticado',
-            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: customError.code, texto: customError.message } }
         });
     }
 }
@@ -180,9 +169,31 @@ export const sairUsuario = (dispatch) => {
 }
 
 
-export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
-    const {nome, email, senha} = usuario;
+export const salvarUsuario = (dispatch, usuario, mensagemComponente) => {
     try {
+        
+        dispatch({
+            type: 'salvandoUsuario'
+        });
+        
+        Api.salvarUsuario(usuario)
+        .then((usuarioSalvo) => {
+            dispatch({ 
+                type: 'usuarioSalvo',
+                payload: usuarioSalvo
+            });
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            dispatch({
+                type: 'usuarioNaoSalvo',
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            });
+        });
+        
+        /*
+        const {nome, email, senha} = usuario;
         firebase.auth().createUserWithEmailAndPassword(email, senha)
         .then(user => {
             let emailB64 = b64.encode(email);
@@ -206,6 +217,7 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
                 payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
             });
         });
+        */
 
     } catch (error) {
         console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
@@ -217,11 +229,29 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
 
 }
 
-export const listarUsuarios = (dispatch, mensagemComponente) => {
+export const listarUsuarios = (dispatch, mensagemComponente, legenda) => {
     try {
         dispatch({
             type: 'listandoUsuarios'
         });
+        
+        Api.listarUsuarios(legenda)
+        .then((listaUsuarios) => {            
+            dispatch({ 
+                type: 'usuariosListados',
+                payload: listaUsuarios
+            });
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            dispatch({
+                type: 'usuariosNaoListados',
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            });
+        });
+        
+        /*
         FirebaseClient();
 
         firebase.database().ref('usuarios')
@@ -231,8 +261,8 @@ export const listarUsuarios = (dispatch, mensagemComponente) => {
                 type: 'usuariosListados',
                 payload: usuarios
             });
-
         });
+        */
     } catch (error) {
         console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({

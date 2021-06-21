@@ -1,19 +1,19 @@
 import React, { useContext } from 'react';
 import { useHistory } from "react-router-dom";
 import GlobalContext from '../../context/GlobalContext'
-import { sairUsuario } from '../../context/UsuarioActions'
+//import { sairUsuario } from '../../context/UsuarioActions'
 import Conteudo from '../../componentes/Conteudo'
 
 export default function Main() {
-    const { dispatch, state } = useContext(GlobalContext);
+    const { state } = useContext(GlobalContext);
     const history = useHistory();
 
-    const usuarioSair = () => {
-        const usuario = firebase.auth();
-        usuario.signOut();
-        //history.push('/');
-        sairUsuario(dispatch);
-    }
+    // const usuarioSair = () => {
+    //     const usuario = firebase.auth();
+    //     usuario.signOut();
+    //     //history.push('/');
+    //     sairUsuario(dispatch);
+    // }
     
     //console.log(state.usuario)
 
@@ -23,8 +23,8 @@ export default function Main() {
                 <p>Principal</p>
                 <button onClick={() => history.push('/testfirebase')}>Teste Firebase</button>
                 <br />
-                <button onClick={() => usuarioSair()}>Usuário - Sair</button>
-                <br />
+                {/* <button onClick={() => usuarioSair()}>Usuário - Sair</button>
+                <br /> */}
 
                 <br />
                 <br />
