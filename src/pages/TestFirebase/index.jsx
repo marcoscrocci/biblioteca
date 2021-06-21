@@ -52,6 +52,10 @@ export default function TestFirebase(props) {
         Api.adicionarTeste();
     }
 
+    const listarUsuarios = () => {
+        Api.listarUsuarios();
+    }
+
     /*
     const salvarDados = () => {
         //alert("Salvar Dados");
@@ -258,6 +262,8 @@ export default function TestFirebase(props) {
             <button onClick={() => usuarioSair()}>Usuário - Sair</button>
             <br />
             <button onClick={() => adicionarTeste()}>Adicionar Teste</button>
+            <br />
+            <button onClick={() => listarUsuarios()}>Listar Usuários</button>
             
             {/* <button onClick={() => salvarDados()}>Salvar Dados</button>
             <br />

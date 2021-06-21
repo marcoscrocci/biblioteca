@@ -51,6 +51,14 @@ export function traduzirMensagem(codigo, texto, state) {
 			return state.legenda.erroObterInformacoesUsuario;
 		case "auth/error-user-auth":
 			return state.legenda.erroAutenticacaoUsuario;
+		case "auth/error-get-user-list":
+			return state.legenda.erroListarUsuarios;
+		case "auth/error-update-user":
+			return state.legenda.erroAtualizarUsuario;
+		case "auth/error-add-user":
+			return state.legenda.erroAdicionarUsuario;
+		case "auth/user-disabled":
+			return state.legenda.erroUsuarioDesabilitado;
 		default:
 			return texto;
 	}

@@ -20,6 +20,7 @@ export default function EntradaTexto(props) {
                 required={props.requerido}
                 variant="standard" // standard ou filled ou outlined
                 disabled={props.desativado}
+                autoComplete={props.autoCompletar === false && 'new-password'}
                 
                 //className="entradaTextoEstilo"
                 style={ props.estilo ? props.estilo : entradaTextoEstilo }

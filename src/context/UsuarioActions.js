@@ -1,7 +1,7 @@
-import firebase from 'firebase/app';
-import FirebaseClient from './../FirebaseClient'
+//import firebase from 'firebase/app';
+//import FirebaseClient from './../FirebaseClient'
 import { guardar, recuperar, remover, mostrarMensagem } from '../Utils'
-import b64 from 'base-64';
+//import b64 from 'base-64';
 import Api from '../Api';
 
 export const actions = {
@@ -27,7 +27,7 @@ export const actions = {
     },
 
     usuarioNaoAutenticado(state, action) {
-        console.log('mostrarMensagem =', action.payload);
+        //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
             ...state,
@@ -45,15 +45,15 @@ export const actions = {
         }
     },
 
-    registrandoUsuario(state, action) {
+    salvandoUsuario(state, action) {
         return {
             ...state,
-            erroRegistrandoUsuario: false,
-            estaRegistrandoUsuario: true
+            erroSalvandoUsuario: false,
+            estaSalvandoUsuario: true
         }
     },
 
-    usuarioRegistrado(state, action) {
+    usuarioSalvo(state, action) {
         const mensagemComponente = action.payload;
         const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
@@ -65,13 +65,13 @@ export const actions = {
         }
     },
 
-    usuarioNaoRegistrado(state, action) {
+    usuarioNaoSalvo(state, action) {
         //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
             ...state,
-            erroRegistrandoUsuario: true,
-            estaRegistrandoUsuario: false
+            erroSalvandoUsuario: true,
+            estaSalvandoUsuario: false
         }
     },
 
@@ -169,9 +169,31 @@ export const sairUsuario = (dispatch) => {
 }
 
 
-export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
-    const {nome, email, senha} = usuario;
+export const salvarUsuario = (dispatch, usuario, mensagemComponente) => {
     try {
+        
+        dispatch({
+            type: 'salvandoUsuario'
+        });
+        
+        Api.salvarUsuario(usuario)
+        .then((usuarioSalvo) => {
+            dispatch({ 
+                type: 'usuarioSalvo',
+                payload: usuarioSalvo
+            });
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            dispatch({
+                type: 'usuarioNaoSalvo',
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            });
+        });
+        
+        /*
+        const {nome, email, senha} = usuario;
         firebase.auth().createUserWithEmailAndPassword(email, senha)
         .then(user => {
             let emailB64 = b64.encode(email);
@@ -195,6 +217,7 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
                 payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
             });
         });
+        */
 
     } catch (error) {
         console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
@@ -206,11 +229,29 @@ export const registrarUsuario = (dispatch, usuario, mensagemComponente) => {
 
 }
 
-export const listarUsuarios = (dispatch, mensagemComponente) => {
+export const listarUsuarios = (dispatch, mensagemComponente, legenda) => {
     try {
         dispatch({
             type: 'listandoUsuarios'
         });
+        
+        Api.listarUsuarios(legenda)
+        .then((listaUsuarios) => {            
+            dispatch({ 
+                type: 'usuariosListados',
+                payload: listaUsuarios
+            });
+        })
+        .catch((error) => {
+            console.log('erro =', JSON.stringify(error));
+            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            dispatch({
+                type: 'usuariosNaoListados',
+                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+            });
+        });
+        
+        /*
         FirebaseClient();
 
         firebase.database().ref('usuarios')
@@ -220,8 +261,8 @@ export const listarUsuarios = (dispatch, mensagemComponente) => {
                 type: 'usuariosListados',
                 payload: usuarios
             });
-
         });
+        */
     } catch (error) {
         console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({

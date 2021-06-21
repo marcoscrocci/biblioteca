@@ -7,11 +7,12 @@ import Paper from '@material-ui/core/Paper';
 import Draggable from 'react-draggable';
 import Slide from '@material-ui/core/Slide';
 import EntradaTexto from '../../componentes/EntradaTexto'
+import CaixaSelecao from '../../componentes/CaixaSelecao'
 import Linha from '../../componentes/Linha'
 import { botaoEstilo, dialogFormEstilo, dialogFormExcluirEstilo } from '../../estilos'
 import GlobalContext from '../../context/GlobalContext'
 //import { criptografar } from '../Utils'
-import { registrarUsuario } from '../../context/UsuarioActions'
+import { salvarUsuario } from '../../context/UsuarioActions'
 import Mensagem from '../../componentes/Mensagem'
 import { Fullscreen } from '@material-ui/icons'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -76,6 +77,7 @@ const UsuarioForm = forwardRef((props, ref) => {
     const [ID, setID] = useState(null);
     const [Nome, setNome] = useState(null);
     const [Email, setEmail] = useState(null);
+    const [Administrador, setAdministrador] = useState(null);
     const [Ativo, setAtivo] = useState(null);
     const [Senha, setSenha] = useState(null);
     const [Confirmacao, setConfirmacao] = useState(null);
@@ -83,57 +85,24 @@ const UsuarioForm = forwardRef((props, ref) => {
 
     useImperativeHandle(ref, () => ({
         abrirUsuarioForm(usuario) {
-            // if (opcoesGrupo.length === 0) {
-            //     listarGrupos(dispatch, mensagem)
-            // }
+            //console.log('abrirUsuarioForm =', usuario);
             setID(usuario.id);
             setNome(usuario.nome);
             setEmail(usuario.email);
+            setAdministrador(usuario.administrador);
             setAtivo(usuario.ativo);
             setSenha(null);
             setConfirmacao(null);
 
-
-            //setGruposSelecionados(usuario.UsuarioGrupos)
-            // let GruposIdDesc = []
-            // if (usuario.UsuarioGrupos) {
-            //     GruposIdDesc = usuario.UsuarioGrupos.map((Grupo) => {
-            //         return {
-            //             id: Grupo.GrupoID,
-            //             descricao: Grupo.Nome
-            //         }
-            //     })
-            // }
-            // gruposDeAcesso.current.atualizarSelecionados(GruposIdDesc)
-            // setAtivo(ativo)
             setOpen(true);
             autoFocus()
         }
-    }))
-
-    // Quando o usuário pressionar o "Atualizar" na tela "Lista de Usuários",
-    // devemos atualizar também os grupos de acesso disponíveis.
-    // useEffect(() => {
-    //     // Zerar a lista para ser atualizada no método abrirUsuarioForm.
-    //     setOpcoesGrupo([])
-    // }, [state.usuarios])
-
-    // useEffect(() => {
-    //     if (state.grupos) {
-    //         const opcoesGrupo = state.grupos.map((Grupo) => {
-    //             return {
-    //                 id: Grupo.GrupoID,
-    //                 descricao: Grupo.Nome
-    //             }
-    //         })
-    //         setOpcoesGrupo(descricaoOrdenar(opcoesGrupo))
-    //     }
-    // }, [open, state.grupos])
+    }));
 
 
     useEffect(() => {
         if (!state.estaSalvandoUsuario && !state.erroSalvandoUsuario) {
-            handleClose()
+            handleClose();
         }
     }, [state.estaSalvandoUsuario, state.erroSalvandoUsuario]);
 
@@ -149,7 +118,16 @@ const UsuarioForm = forwardRef((props, ref) => {
             if (!Nome || !Email) {
                 return false;
             }
-            alert("Alterar...")
+            const usuario = {
+                id: ID,
+                nome: Nome,
+                email: Email,
+                senha: Senha,
+                administrador: Administrador,
+                ativo: Ativo
+            }
+
+            salvarUsuario(dispatch, usuario, mensagem);
         } else {
             if (!Nome || !Email || !Senha) {
                 return false;
@@ -166,10 +144,12 @@ const UsuarioForm = forwardRef((props, ref) => {
             const usuario = {
                 nome: Nome,
                 email: Email,
-                senha: Senha
+                senha: Senha,
+                administrador: Administrador,
+                ativo: true
             }
 
-            registrarUsuario(dispatch, usuario, mensagem);
+            salvarUsuario(dispatch, usuario, mensagem);
         }
         
         // const usuario = {
@@ -206,7 +186,8 @@ const UsuarioForm = forwardRef((props, ref) => {
     }
 
     const mesmoUsuario = () => {
-        return (!Ativo && state.usuario.Email === Email)
+        //console.log('mesmoUsuario =', Ativo, state.usuario.email, Email);
+        return (!Ativo && state.usuario.email === Email);
     }
 
     // const administrador = () => {
@@ -224,7 +205,7 @@ const UsuarioForm = forwardRef((props, ref) => {
     }
 
     const podeRemover = () => {
-        return true; // !mesmoUsuario() && !administrador()
+        return !mesmoUsuario(); //&& !administrador()
     }
 
 
@@ -254,19 +235,20 @@ const UsuarioForm = forwardRef((props, ref) => {
                                 requerido={true}
                                 somenteLeitura={!Ativo}
                             />
-                            <EntradaTexto
-                                id="email"
-                                colunas="12"
-                                rotulo={state.legenda.email}
-                                valor={Email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                nome="Email"
-                                requerido={true}
-                                somenteLeitura={!Ativo}
-                            />
                         </Linha>
                         {!ID && 
                             <Linha>
+                                <EntradaTexto
+                                    id="email"
+                                    colunas="12"
+                                    rotulo={state.legenda.email}
+                                    valor={Email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    nome="Email"
+                                    requerido={true}
+                                    somenteLeitura={!Ativo}
+                                    autoCompletar={false}
+                                />
                                 <EntradaTexto
                                     id="senha"
                                     tipo="password"
@@ -277,6 +259,7 @@ const UsuarioForm = forwardRef((props, ref) => {
                                     nome="Senha"
                                     requerido={true}
                                     somenteLeitura={!Ativo}
+                                    autoCompletar={false}
                                 />
                                 <EntradaTexto
                                     id="confirmacao"
@@ -288,22 +271,19 @@ const UsuarioForm = forwardRef((props, ref) => {
                                     nome="Confirmacao"
                                     requerido={true}
                                     somenteLeitura={!Ativo}
+                                    autoCompletar={false}
                                 />
                             </Linha>
                         }
-                        {/* <div className="margem-inferior">
-                            <Linha>
-                                {state.estaListandoGrupos && <Loader />}
-                                <ListaOpcoes
-                                    titulo={state.legenda.usuariosTituloGrupos}
-                                    dica={state.legenda.usuarioDicaGrupos}
-                                    opcoes={opcoesGrupo}
-                                    selecionados={UsuarioGrupos}
-                                    obterSelecionados={(itens) => setUsuarioGrupos(itens)}
-                                    ref={gruposDeAcesso}
-                                />
-                            </Linha>
-                        </div> */}
+                        <Linha>
+                            <CaixaSelecao
+                                rotulo={state.legenda.administrador}
+                                marcado={Administrador}
+                                onChange={(e) => setAdministrador(e.target.checked)}
+                                dica={state.legenda.dicaAdministrador}
+                            />
+                        </Linha>
+                        <br />
                         {aviso() &&
                             <div className="mensagem-aviso">{aviso()}</div>
                         }
