@@ -11,7 +11,6 @@ import CaixaSelecao from '../../componentes/CaixaSelecao'
 import Linha from '../../componentes/Linha'
 import { botaoEstilo, dialogFormEstilo, dialogFormExcluirEstilo } from '../../estilos'
 import GlobalContext from '../../context/GlobalContext'
-//import { criptografar } from '../Utils'
 import { salvarUsuario } from '../../context/UsuarioActions'
 import Mensagem from '../../componentes/Mensagem'
 import { Fullscreen } from '@material-ui/icons'
@@ -19,12 +18,7 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
-//import { listarGrupos } from '../context/GrupoActions'
-//import { descricaoOrdenar } from '../Utils'
 import Icones from '../../componentes/Icones';
-//import ListaOpcoes from '../../componentes/ListaOpcoes'
-//import Loader from '../../componentes/Loader'
-//import TeclaPressionada from '../../componentes/TeclaPressionada'
 
 
 
@@ -152,24 +146,6 @@ const UsuarioForm = forwardRef((props, ref) => {
             salvarUsuario(dispatch, usuario, mensagem);
         }
         
-        // const usuario = {
-        //     UsuarioID: UsuarioID,
-        //     Nome: Nome,
-        //     Login: Login,
-        //     //Senha: criptografar(Senha),
-        //     Matricula: Matricula,
-        //     SegundosAtualizar: SegundosAtualizar,
-        //     Ativo: Ativo,
-        //     UsuarioAutorID: state.usuario.UsuarioID,
-        //     UsuarioGrupos: EnviarGrupos
-        // }
-
-        // if (!UsuarioID && Senha) {
-        //     usuario.Senha = criptografar(Senha)
-        // }
-
-        // //alert(JSON.stringify(usuario))
-        // salvarUsuario(dispatch, usuario, mensagem)
     }
 
     const handleFullscreen = () => {

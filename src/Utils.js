@@ -59,6 +59,12 @@ export function traduzirMensagem(codigo, texto, state) {
 			return state.legenda.erroAdicionarUsuario;
 		case "auth/user-disabled":
 			return state.legenda.erroUsuarioDesabilitado;
+		case "book/error-get-book-list":
+			return state.legenda.erroListarLivros;
+		case "book/error-update-book":
+			return state.legenda.erroAtualizarLivro;
+		case "book/error-add-book":
+			return state.legenda.erroAdicionarLivro;
 		default:
 			return texto;
 	}

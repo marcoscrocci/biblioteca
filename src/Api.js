@@ -20,6 +20,7 @@ const db = firebaseApp.firestore();
 
 
 const metodos = {
+
     autenticarUsuario: async ({ email, senha }) => {
         const firebaseAuth = firebaseApp.auth();
         return new Promise(function (resolve, reject) {
@@ -73,6 +74,7 @@ const metodos = {
         });
 
     },
+
     listarUsuarios: async (legenda) => {
         return new Promise((resolve, reject) => {
             const lista = [];
@@ -100,6 +102,7 @@ const metodos = {
             });
         });
     },
+
     salvarUsuario: async (usuario) => {
         return new Promise((resolve, reject) => {
             if (usuario.id) {
@@ -161,6 +164,66 @@ const metodos = {
             }
         });
     },
+
+    listarLivros: async () => {
+        return new Promise((resolve, reject) => {
+            const lista = [];
+            db.collection("livros").where("ativo", "==", true)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const item = doc.data();
+                    item.id = doc.id;
+                    lista.push(item);
+                });
+                resolve(lista);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                const customError = {
+                    code: 'book/error-get-book-list',
+                    message: error.message
+                }
+                reject(customError);
+            });
+        });
+    },
+
+    salvarLivro: async (livro) => {
+        return new Promise((resolve, reject) => {
+            if (livro.id) {
+                db.collection("livros").doc(livro.id).update(livro)
+                .then(() => {
+                    resolve(livro);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    const customError = {
+                        code: 'book/error-update-book',
+                        message: error.message
+                    }
+                    reject(customError);
+                    //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+                })
+            } else {
+                db.collection("livros").add(livro)
+                .then(() => {
+                    resolve(livro);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    const customError = {
+                        code: 'book/error-add-book',
+                        message: error.message
+                    }
+                    reject(customError);
+                    //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+                });
+            }
+        });
+    },
+
+    /*** TESTES ***/
     verificarUsuarioAutenticado: async () => {
         const firebaseAuth = firebaseApp.auth();
         const usuario = firebaseAuth.currentUser;

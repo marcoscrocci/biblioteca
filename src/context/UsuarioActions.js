@@ -170,104 +170,47 @@ export const sairUsuario = (dispatch) => {
 
 
 export const salvarUsuario = (dispatch, usuario, mensagemComponente) => {
-    try {
-        
-        dispatch({
-            type: 'salvandoUsuario'
-        });
-        
-        Api.salvarUsuario(usuario)
-        .then((usuarioSalvo) => {
-            dispatch({ 
-                type: 'usuarioSalvo',
-                payload: usuarioSalvo
-            });
-        })
-        .catch((error) => {
-            console.log('erro =', JSON.stringify(error));
-            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            dispatch({
-                type: 'usuarioNaoSalvo',
-                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
-            });
-        });
-        
-        /*
-        const {nome, email, senha} = usuario;
-        firebase.auth().createUserWithEmailAndPassword(email, senha)
-        .then(user => {
-            let emailB64 = b64.encode(email);
-            
-            const usuarios = firebase.database().ref("usuarios");
-            const usuario = usuarios.child(emailB64);
-            const ativo = 1;
-            usuario.set({email, nome, ativo})
-            .then(() => {
-                dispatch({ 
-                    type: 'usuarioRegistrado',
-                    payload: mensagemComponente
-                });
-            });
-        })
-        .catch((error) => {
-            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
-            dispatch({
-                type: 'usuarioNaoRegistrado',
-                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
-            });
-        });
-        */
 
-    } catch (error) {
-        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
-        dispatch({
-            type: 'usuarioNaoAutenticado',
-            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', texto: error.message } }
+    dispatch({
+        type: 'salvandoUsuario'
+    });
+    
+    Api.salvarUsuario(usuario)
+    .then((usuarioSalvo) => {
+        dispatch({ 
+            type: 'usuarioSalvo',
+            payload: usuarioSalvo
         });
-    }
+    })
+    .catch((error) => {
+        console.log('erro =', JSON.stringify(error));
+        //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+        dispatch({
+            type: 'usuarioNaoSalvo',
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
+        });
+    });
 
 }
 
-export const listarUsuarios = (dispatch, mensagemComponente, legenda) => {
-    try {
-        dispatch({
-            type: 'listandoUsuarios'
-        });
-        
-        Api.listarUsuarios(legenda)
-        .then((listaUsuarios) => {            
-            dispatch({ 
-                type: 'usuariosListados',
-                payload: listaUsuarios
-            });
-        })
-        .catch((error) => {
-            console.log('erro =', JSON.stringify(error));
-            //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
-            dispatch({
-                type: 'usuariosNaoListados',
-                payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
-            });
-        });
-        
-        /*
-        FirebaseClient();
+export const listarUsuarios = (dispatch, mensagemComponente, legenda) => { 
+    dispatch({ 
+        type: 'listandoUsuarios'
+    });
 
-        firebase.database().ref('usuarios')
-        .on('value', snapshot => {
-            let usuarios = snapshot.val();
-            dispatch({ 
-                type: 'usuariosListados',
-                payload: usuarios
-            });
+    Api.listarUsuarios(legenda)
+    .then((listaUsuarios) => {            
+        dispatch({ 
+            type: 'usuariosListados',
+            payload: listaUsuarios
         });
-        */
-    } catch (error) {
-        console.log(`Código: ${error.code} - Mensagem: ${error.message}`);
+    })
+    .catch((error) => {
+        console.log('erro =', JSON.stringify(error));
+        //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
             type: 'usuariosNaoListados',
-            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', texto: error.message } }
+            payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
-    }
+    });
 }
