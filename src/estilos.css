@@ -497,3 +497,34 @@ td {
     font-weight: bold;
     margin-bottom: 10px;
 }
+
+
+table {
+    font-family: arial, sans-serif;
+    font-size: 12px;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  th {
+    background-color: #15005f;
+    color: white;
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }

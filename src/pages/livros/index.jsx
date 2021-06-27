@@ -10,10 +10,10 @@ import MaterialTable from 'material-table'
 import LivroForm from './LivroForm'
 import Loader from '../../componentes/Loader'
 import { localization, materiaTableOptions } from '../../estilos'
-import { Edit, Delete, Add, Refresh } from '@material-ui/icons'
+import { Edit, Delete, Add, Refresh, Print } from '@material-ui/icons'
 
 
-export default function Main() {
+export default function LivroLista() {
     const { dispatch, state } = useContext(GlobalContext);
     const formLivro = useRef();
     const mensagem = useRef();
@@ -83,6 +83,12 @@ export default function Main() {
         formLivro.current.abrirLivroForm(livro);
     }
 
+    const imprimir = (event, rowData) => {
+        //alert("imprimir");
+        var relatorio = window.open('/#/livros/relatorio', '_blank');
+        relatorio.focus();
+    }
+
 
     return (
         <div>
@@ -118,6 +124,12 @@ export default function Main() {
                                     tooltip: state.legenda.atualizar,
                                     isFreeAction: true,
                                     onClick: atualizar
+                                },
+                                {
+                                    icon: () => <Print color="primary" />,
+                                    tooltip: state.legenda.imprimir,
+                                    isFreeAction: true,
+                                    onClick: imprimir
                                 }
                             ]}
                         />

@@ -13,14 +13,14 @@ import { localization, materiaTableOptions } from '../../estilos'
 import { Edit, Delete, Add, Refresh } from '@material-ui/icons'
 
 
-export default function Main() {
+export default function Usuarios() {
     const { dispatch, state } = useContext(GlobalContext);
     const formUsuario = useRef();
     const mensagem = useRef();
 
 
     const tabColunas = [
-        { title: state.legenda.codigo, field: 'id' },
+        //{ title: state.legenda.codigo, field: 'id' },
         { title: state.legenda.nome, field: 'nome' },
         { title: state.legenda.email, field: 'email' },
         { title: state.legenda.administrador, field: 'administradorLegenda' }

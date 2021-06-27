@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 
 import Main from './pages/main';
-import Livros from './pages/livros'
+import Livros from './pages/livros';
+import LivroRelatorio from './pages/livros/LivroRelatorio';
 import Usuarios from './pages/usuarios';
 import TestFirebase from './pages/TestFirebase';
 import Teste from './pages/teste';
@@ -20,6 +21,7 @@ export default function Routers(props) {
             <Switch>            
                 <Route path='/testfirebase' component={TestFirebase} />
                 <Route path='/teste' component={Teste} />
+                <Route path='/livros/relatorio' component={LivroRelatorio} />
                 <Route path='/livros' component={Livros} />
                 <Route path='/usuarios' component={Usuarios} />
                 <Route path='/' component={Main} />

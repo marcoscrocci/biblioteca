@@ -169,6 +169,7 @@ export default function Login() {
                             <EntradaTexto
                                 id="login"
                                 colunas="12"
+                                tipo="email"
                                 rotulo={obterLegenda('entrarEmail')}
                                 valor={Email}
                                 onChange={(e) => setEmail(e.target.value)}
@@ -176,6 +177,7 @@ export default function Login() {
                                 required={true}
                             />
                             <EntradaTexto
+                                id="senha"
                                 colunas="12"
                                 tipo="password"
                                 rotulo={obterLegenda('entrarSenha')}
