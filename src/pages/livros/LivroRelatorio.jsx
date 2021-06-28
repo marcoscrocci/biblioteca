@@ -2,22 +2,23 @@ import React, { useContext, useRef, useEffect } from 'react';
 import GlobalContext from '../../context/GlobalContext';
 import { listarLivros } from '../../context/LivroActions';
 import Mensagem from '../../componentes/Mensagem';
-import Linha from '../../componentes/Linha'
-import Grade from '../../componentes/Grade'
-import Loader from '../../componentes/Loader'
+import Linha from '../../componentes/Linha';
+import Grade from '../../componentes/Grade';
+import Loader from '../../componentes/Loader';
+//import { useParams } from 'react-router-dom';
 
 
-
-export default function LivroRelatorio() {
+export default function LivroRelatorio({ match }) {
     const { dispatch, state } = useContext(GlobalContext);
     const mensagem = useRef();
-
+    
     useEffect(() => {
+        console.log('token =', match.params.token);
+        
         listarLivros(dispatch, mensagem);
-    }, [dispatch]);
+    }, [dispatch, match.params.token]);
 
-    const montarLista = () => {
-        const mostrarTitulos = true;
+    const montarRelatorio = () => {
         let livros = state.livros || [];
         let lista = [];
         
@@ -36,20 +37,18 @@ export default function LivroRelatorio() {
 
         lista = lista.sort((a, b) => a.tombo - b.tombo);
 
-        return gerarPaginas(lista, mostrarTitulos, 24);
+        return gerarPaginas(lista);
     }
 
-    const obterTitulos = (mostrarTitulos) => {
-        if (mostrarTitulos) {
-            return (
-                <tr>
-                    <th>Tombo</th>
-                    <th>Título</th>
-                    <th>Autor</th>
-                    <th>Editora</th>
-                </tr>
-            )
-        }
+    const obterTitulos = () => {
+        return (
+            <tr>
+                <th>Tombo</th>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Editora</th>
+            </tr>
+        )
     }
 
 
@@ -66,18 +65,28 @@ export default function LivroRelatorio() {
         });
     }
 
-    const gerarPaginas = (lista, mostrarTitulos) => {
-        const linhasPorPagina = 24;
-        let livros = lista.splice(0, linhasPorPagina);
-        
-        let html = (
-            <table>
-                {obterTitulos(mostrarTitulos)}
-                {obterLinhas(livros)}
-            </table>
-        );        
+    const gerarPaginas = (lista) => {
+        const paginas = [];
+        let livros = lista;
+        while (livros.length > 0) {
+            const pagina = livros.splice(0, 24);
+            paginas.push(pagina);
+        }
 
-        return html;
+        return paginas.map((pagina) => {
+            const lista = pagina;
+            return (
+                <table>
+                    <thead>
+                        {obterTitulos()}
+                    </thead>
+                    <tbody>
+                        {obterLinhas(lista)}
+                    </tbody>
+                </table>
+
+            )
+        });
     }
 
 
@@ -87,7 +96,7 @@ export default function LivroRelatorio() {
             {(state.estaListandoLivros || state.estaSalvandoLivro) && <Loader />}
             <Linha>
                 <Grade colunas="12">
-                    {montarLista()}
+                    {montarRelatorio()}
                 </Grade>
             </Linha>
             <Mensagem ref={mensagem} />

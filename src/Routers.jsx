@@ -21,7 +21,7 @@ export default function Routers(props) {
             <Switch>            
                 <Route path='/testfirebase' component={TestFirebase} />
                 <Route path='/teste' component={Teste} />
-                <Route path='/livros/relatorio' component={LivroRelatorio} />
+                <Route path='/livros/relatorio/:token' component={LivroRelatorio} />
                 <Route path='/livros' component={Livros} />
                 <Route path='/usuarios' component={Usuarios} />
                 <Route path='/' component={Main} />

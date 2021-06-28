@@ -17,7 +17,7 @@ export default function LoginOuAplicacao() {
     }, [dispatch]);
     
   
-    if (state.usuario || true) {
+    if (state.usuario) {
         return <App />
     } else {
         return <Login />

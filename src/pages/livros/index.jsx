@@ -11,13 +11,14 @@ import LivroForm from './LivroForm'
 import Loader from '../../componentes/Loader'
 import { localization, materiaTableOptions } from '../../estilos'
 import { Edit, Delete, Add, Refresh, Print } from '@material-ui/icons'
+import jwt from 'jsonwebtoken';
+//import puppeteer from 'puppeteer';
 
 
 export default function LivroLista() {
     const { dispatch, state } = useContext(GlobalContext);
     const formLivro = useRef();
     const mensagem = useRef();
-
 
     const tabColunas = [
         //{ title: state.legenda.codigo, field: 'id' },
@@ -84,8 +85,25 @@ export default function LivroLista() {
     }
 
     const imprimir = (event, rowData) => {
-        //alert("imprimir");
-        var relatorio = window.open('/#/livros/relatorio', '_blank');
+        // const pdf = async () => {
+        var token = jwt.sign({ id: state.usuario.id }, process.env.REACT_APP_API_KEY, {
+            expiresIn: 30000 // expires in 30 segundos
+        });
+            
+        //     const browser = await puppeteer.launch();
+        //     const page = await browser.newPage();
+        //     await page.goto(`/#/livros/relatorio/${token}`);
+        //     await page.pdf({
+        //         path: 'src/assets/livros.pdf',
+        //         printBackground: true,
+        //         format: 'A4',
+        //         margin: { top: "1.9cm", left: "1.2cm", right: "1.2cm", bottom: "1.8cm" },
+        //         landscape: true
+        //     });
+        //     await browser.close();
+        // }
+
+        var relatorio = window.open(`/#/livros/relatorio/${token}`, '_blank');
         relatorio.focus();
     }
 
