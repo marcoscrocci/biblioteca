@@ -13,7 +13,23 @@ export default function LivroRelatorio({ match }) {
     const mensagem = useRef();
     
     useEffect(() => {
-        console.log('token =', match.params.token);
+        //console.log('token =', match.params.token);
+        /*
+        jwt.verify(token, process.env.REACT_APP_API_KEY, (err, decoded) => {
+            if (err) {
+                return res.json({
+                    valido: false,
+                    mensagem: {
+                        tipo: 'Error',
+                        titulo: legenda.tituloMensagemErro,
+                        texto: 'Falha na autenticação. Erro -> ' + err
+                    }
+                });
+            }
+            req.userId = decoded.id;
+            //next();
+        });
+        */
         
         listarLivros(dispatch, mensagem);
     }, [dispatch, match.params.token]);

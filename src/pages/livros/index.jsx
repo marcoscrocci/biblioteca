@@ -3,7 +3,7 @@ import GlobalContext from '../../context/GlobalContext';
 import { listarLivros } from '../../context/LivroActions';
 import Conteudo from '../../componentes/Conteudo';
 import Mensagem from '../../componentes/Mensagem';
-
+import b64 from 'base-64';
 import Linha from '../../componentes/Linha'
 import Grade from '../../componentes/Grade'
 import MaterialTable from 'material-table'
@@ -12,7 +12,6 @@ import Loader from '../../componentes/Loader'
 import { localization, materiaTableOptions } from '../../estilos'
 import { Edit, Delete, Add, Refresh, Print } from '@material-ui/icons'
 import jwt from 'jsonwebtoken';
-//import puppeteer from 'puppeteer';
 
 
 export default function LivroLista() {
@@ -85,25 +84,25 @@ export default function LivroLista() {
     }
 
     const imprimir = (event, rowData) => {
-        // const pdf = async () => {
         var token = jwt.sign({ id: state.usuario.id }, process.env.REACT_APP_API_KEY, {
             expiresIn: 30000 // expires in 30 segundos
         });
-            
-        //     const browser = await puppeteer.launch();
-        //     const page = await browser.newPage();
-        //     await page.goto(`/#/livros/relatorio/${token}`);
-        //     await page.pdf({
-        //         path: 'src/assets/livros.pdf',
-        //         printBackground: true,
-        //         format: 'A4',
-        //         margin: { top: "1.9cm", left: "1.2cm", right: "1.2cm", bottom: "1.8cm" },
-        //         landscape: true
-        //     });
-        //     await browser.close();
-        // }
 
-        var relatorio = window.open(`/#/livros/relatorio/${token}`, '_blank');
+        const pagina = {
+            id: state.usuario.id,
+            token,
+            url: "http://localhost:3000/#/livros/relatorio/usuario",
+            waitUntil: "networkidle0",
+            pdf: {
+                printBackground: true,
+                format: "A4"
+            }
+        }
+        const parametros = b64.encode(JSON.stringify(pagina));
+
+        //alert('parametros:' + parametros);
+
+        var relatorio = window.open(`http://localhost:3003/pdf/${parametros}`, '_blank');
         relatorio.focus();
     }
 
