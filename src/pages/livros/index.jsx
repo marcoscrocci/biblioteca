@@ -85,24 +85,32 @@ export default function LivroLista() {
 
     const imprimir = (event, rowData) => {
         var token = jwt.sign({ id: state.usuario.id }, process.env.REACT_APP_API_KEY, {
-            expiresIn: 30000 // expires in 30 segundos
+            expiresIn: 30 // expires in 30 segundos
         });
 
+        const urlServer = window.location.href;
+        //console.log(urlServer);
+
+        const url = `${urlServer}/relatorio/${token}`;
+
         const pagina = {
-            id: state.usuario.id,
-            token,
-            url: "http://localhost:3000/#/livros/relatorio/usuario",
-            waitUntil: "networkidle0",
+            //id: state.usuario.id,
+            //token,
+            url,
+            waitUntil: "networkidle2",
             pdf: {
                 printBackground: true,
-                format: "A4"
+                format: "A4",
+                margin: { top: "1.9cm", left: "1.2cm", right: "1.2cm", bottom: "1.8cm" },
+                landscape: true
             }
         }
         const parametros = b64.encode(JSON.stringify(pagina));
 
         //alert('parametros:' + parametros);
+        const urlGerarPdf = process.env.REACT_APP_GERAR_PDF_URL;
 
-        var relatorio = window.open(`http://localhost:3003/pdf/${parametros}`, '_blank');
+        var relatorio = window.open(`${urlGerarPdf}/${parametros}`, '_blank');
         relatorio.focus();
     }
 

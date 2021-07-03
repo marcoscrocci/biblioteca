@@ -5,34 +5,27 @@ import Mensagem from '../../componentes/Mensagem';
 import Linha from '../../componentes/Linha';
 import Grade from '../../componentes/Grade';
 import Loader from '../../componentes/Loader';
-//import { useParams } from 'react-router-dom';
-
+import jwt from 'jsonwebtoken';
 
 export default function LivroRelatorio({ match }) {
     const { dispatch, state } = useContext(GlobalContext);
     const mensagem = useRef();
     
     useEffect(() => {
-        //console.log('token =', match.params.token);
-        /*
+        const token = match.params.token;
+
         jwt.verify(token, process.env.REACT_APP_API_KEY, (err, decoded) => {
             if (err) {
-                return res.json({
-                    valido: false,
-                    mensagem: {
-                        tipo: 'Error',
-                        titulo: legenda.tituloMensagemErro,
-                        texto: 'Falha na autenticação. Erro -> ' + err
-                    }
-                });
+                console.log('Toke ERRO');
+                console.log(err);
+            } else {
+                listarLivros(dispatch, mensagem);
+                //console.log('Toke OK');
             }
-            req.userId = decoded.id;
-            //next();
         });
-        */
         
-        listarLivros(dispatch, mensagem);
-    }, [dispatch, match.params.token]);
+        
+    }, [dispatch, match.params.objeto]);
 
     const montarRelatorio = () => {
         let livros = state.livros || [];
