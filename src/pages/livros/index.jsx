@@ -85,7 +85,7 @@ export default function LivroLista() {
 
     const imprimir = (event, rowData) => {
         var token = jwt.sign({ id: state.usuario.id }, process.env.REACT_APP_API_KEY, {
-            expiresIn: 30 // expires in 30 segundos
+            expiresIn: 120 // expires in 120 segundos
         });
 
         const urlServer = window.location.href;

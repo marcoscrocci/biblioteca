@@ -21,8 +21,9 @@ export default function LoginOuAplicacao() {
 
     // Verificar se veio um Token para emitir um relatório
     const href = window.location.href;
-    const tokenPos = href.search("/relatorio/") + 11;
+    var tokenPos = href.search("/relatorio/");
     if (tokenPos >= 0) {
+        tokenPos = tokenPos + 11;
         const token = href.substring(tokenPos);    
         jwt.verify(token, process.env.REACT_APP_API_KEY, (err) => {
             if (!err) {
