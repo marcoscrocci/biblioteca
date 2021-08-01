@@ -25,7 +25,7 @@ export default function LivroRelatorio({ match }) {
         });
         
         
-    }, [dispatch, match.params.objeto]);
+    }, [dispatch, match.params.objeto, match.params.token]);
 
     const montarRelatorio = () => {
         let livros = state.livros || [];
