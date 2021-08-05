@@ -20,7 +20,7 @@ import MMenu from '@material-ui/core/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 //import NotificationsIcon from '@material-ui/icons/Notifications';
 import Button from '@material-ui/core/Button';
-import { remover } from '../Utils'
+import { remover, removerCriptografado } from '../Utils'
 import { sairUsuario } from '../context/UsuarioActions'
 //import { obterNotificacoes } from '../context/DashboardActions'
 //import UsuarioSenhaForm from '../telas/UsuarioSenhaForm'
@@ -230,8 +230,10 @@ export default function Conteudo(props) {
                 const dataAtualString = moment(dataAtual()).format('YYYY-MM-DD HH:mm:ss')
                 const validadeSenha = moment(state.usuario.ValidadeSenha).format('YYYY-MM-DD HH:mm:ss')
                 if (validadeSenha < dataAtualString) {
-                    remover('dashboard_usuario')
-                    remover('dashboard_manterConectado')    
+                    remover('biblioteca_usuario');
+                    remover('biblioteca_manterConectado');
+                    removerCriptografado('biblioteca_usuario');
+                    removerCriptografado('biblioteca_manterConectado');
                     alterarSenha(true)
                 }    
             }
@@ -243,6 +245,7 @@ export default function Conteudo(props) {
     const sair = () => {
         history.push('/');
         remover('biblioteca_usuario');
+        removerCriptografado('biblioteca_usuario');     
         sairUsuario(dispatch);
         handleMenuClose();
     }

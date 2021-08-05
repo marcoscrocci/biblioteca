@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.1.10",
     "base-64": "^1.0.0",
     "bootstrap": "^5.0.1",
+    "browser-signature": "^1.0.4",
     "firebase": "^8.6.2",
     "font-awesome": "^4.7.0",
     "fontsource-roboto": "^4.0.0",

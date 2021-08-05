@@ -1,6 +1,6 @@
 //import firebase from 'firebase/app';
 //import FirebaseClient from './../FirebaseClient'
-import { guardar, recuperar, remover, mostrarMensagem } from '../Utils'
+import { guardarCriptografado, recuperarCriptografado, remover, mostrarMensagem, removerCriptografado, codigoNavegador } from '../Utils'
 //import b64 from 'base-64';
 import Api from '../Api';
 
@@ -113,8 +113,9 @@ export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) =
                 
         Api.autenticarUsuario(usuario)
         .then((usuarioAutenticado) => {
+            usuarioAutenticado.codigoNavegador = codigoNavegador();
             //console.log('Usuário Autenticado =', usuarioAutenticado);
-            guardar('biblioteca_usuario', usuarioAutenticado);
+            guardarCriptografado('biblioteca_usuario', usuarioAutenticado);
             dispatch({ 
                 type: 'usuarioAutenticado',
                 payload: usuarioAutenticado
@@ -123,6 +124,7 @@ export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) =
         .catch((error) => {
             console.log('erro =', JSON.stringify(error));
             //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+            removerCriptografado('biblioteca_usuario');
             dispatch({
                 type: 'usuarioNaoAutenticado',
                 payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
@@ -142,8 +144,12 @@ export const autenticarUsuario = async (dispatch, usuario, mensagemComponente) =
 }
 
 export const recuperarUsuario = (dispatch) => {
-    let usuario = recuperar('biblioteca_usuario');
-    //console.log('usuario recuperado? =', JSON.stringify(usuario));
+    let usuario = recuperarCriptografado('biblioteca_usuario');
+    //console.log('usuario recuperado? =', JSON.stringify(usuario));  
+
+    if (usuario?.codigoNavegador.slice(-18) !== codigoNavegador().slice(-18)) {
+        usuario = undefined; // Manter logado se o código do navegador for a mesma de quando o usuário foi memorizado.
+    }
     if (usuario) {
         dispatch({ 
             type: 'usuarioAutenticado',

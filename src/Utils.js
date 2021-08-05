@@ -1,8 +1,13 @@
-//const crypto = require('crypto')
+import b64 from 'base-64';
+import browserSignature from 'browser-signature';
+const crypto = require('crypto')
 //const moment = require('moment');
-//const algoritmo = 'aes-256-ctr'
 //const { chave_criptografia, ivPass, ajustarFusoHorario, fusoHorarioMoment } = require('./config')
 //const { isBrowser, isMobile, isTablet, isSmartTV } = require('react-device-detect')
+
+const algoritmo = 'aes-256-ctr'
+const chave_criptografia = process.env.REACT_APP_CHAVE_CRIPTOGRAFIA;
+const ivPass = process.env.REACT_APP_IV_PASS;
 
 export function guardar(chave, objeto) {
 	localStorage.setItem(chave, JSON.stringify(objeto))
@@ -14,6 +19,32 @@ export function recuperar(chave) {
 
 export function remover(chave) {
 	localStorage.removeItem(chave)
+}
+
+export function guardarCriptografado(chave, objeto) {
+	const chave64 = b64.encode(chave);
+	const objetoString = JSON.stringify(objeto)
+	const objeto64 = b64.encode(objetoString);		
+	const objetoCriptografado = criptografar(objeto64);
+	localStorage.setItem(chave64, objetoCriptografado);
+}
+
+export function recuperarCriptografado(chave) {
+	const chave64 = b64.encode(chave);
+	const objetoCriptografado = localStorage.getItem(chave64);
+	if (objetoCriptografado) {
+		const objeto64 = descriptografar(objetoCriptografado);
+		const objetoString = b64.decode(objeto64);
+		const objeto = JSON.parse(objetoString);
+		return objeto;
+	} else {
+		return undefined;
+	}
+}
+
+export function removerCriptografado(chave) { 
+	const chave64 = b64.encode(chave);
+	localStorage.removeItem(chave64);
 }
 
 export function mostrarMensagem(msg, state) {
@@ -91,8 +122,8 @@ export function objetosParaLista(objetos) {
 	return lista;
 }
 
-/*
 export function criptografar(texto) {
+
 	const key = Buffer.from(chave_criptografia, 'hex')
 	const iv = Buffer.from(ivPass, 'hex')
 
@@ -114,6 +145,13 @@ export function descriptografar(texto) {
 	return descriptado.toString()
 }
 
+export function codigoNavegador() {
+	return browserSignature();
+}
+
+
+
+/*
 
 export function detectar_mobile() {
 	var check = false; //wrapper no check
@@ -216,8 +254,8 @@ export function temAcesso(caminho, state, dispatch, history, sairUsuario) {
 	const menu = state.menu ? state.menu : []
 	const acessoMenu = menu.find(m => m.Caminho === caminho)
 	if (!acessoMenu) {
-		//localStorage.removeItem('dashboard_usuario')
-		//localStorage.removeItem('dashboard_manterConectado')
+		//localStorage.removeItem('biblioteca_usuario')
+		//localStorage.removeItem('biblioteca_manterConectado')
 		history.push('/')
 		sairUsuario(dispatch)
 	}

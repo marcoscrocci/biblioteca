@@ -7,7 +7,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import List from '@material-ui/core/List';
 import { useHistory } from "react-router-dom";
-import { remover } from '../Utils'
+import { remover, removerCriptografado } from '../Utils'
 import { sairUsuario } from '../context/UsuarioActions'
 import Icones from './Icones';
 
@@ -40,6 +40,7 @@ export default function Menu() {
     const sair = () => {
         history.push('/');
         remover('biblioteca_usuario');
+        removerCriptografado('biblioteca_usuario');
         sairUsuario(dispatch);
     }
 
