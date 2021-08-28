@@ -1,70 +1,70 @@
-# Getting Started with Create React App
+# Como baixar e executar o projeto Biblioteca
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## `Baixar o projeto Biblioteca:`
 
-## Available Scripts
+#### `No terminal do sistema operacional digite ou copie o comando dentro de uma pasta de projetos da sua escolha em seu computador:`
+git clone https://github.com/marcoscrocci/biblioteca.git
 
-In the project directory, you can run:
+#### `Entre na pasta biblioteca que acabou de ser criada:` 
+cd biblioteca
 
-### `yarn start`
+#### `Para prosseguir, você deve ter o Node.js instalado no seu computador.`
+#### `Digite o comando abaixo para verificar se o Node.js está instalado:`
+node --version
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Caso não tenho o Node.js instalado no seu computador, visite o site:
+https://nodejs.org/en/download/
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+#### `Já na pasta biblioteca, para baixar as dependencias do projeto, digite o comando:`
+npm install
 
-### `yarn test`
+#### `Crie um projeto, um app e um banco de dados Firestore Database no site:`
+https://console.firebase.google.com
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Obs.: Basta ter uma conta na Google e um plano Spark, que é gratuíto.
 
-### `yarn build`
+<p>Ainda no site do Firebase, habilite a autenticação por E-mail/senha e crie um usuário, para ser administrador, diretamente no site.
+Crie no banco de dados Firestore uma coleção "usuarios" e um novo documento com os campos e valores abaixo: </p>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+`administrador:` true <br />
+`ativo:` true <br />
+`email:` administrador@gmail.com (o mesmo criado no Authentication) <br />
+`nome:` Administrador <br />
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+No Cloud Firestore, crie a regra:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
 
-### `yarn eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+#### `No diretório raíz do projeto, crie um arquivo chamado .env com as configurações geradas no projeto do Firebase (Web App):`
+/.env<br />
+REACT_APP_API_KEY=<valor de apiKey><br />
+REACT_APP_AUTH_DOMAIN=<valor de authDomain><br />
+REACT_APP_PROJECT_ID=<valor de projectId><br />
+REACT_APP_STORAGE_BUCKET=<valor de storageBucket><br />
+REACT_APP_MESSAGING_SENDER_ID=<valor de messagingSenderId><br />
+REACT_APP_APP_ID=<valor de appId><br />
+REACT_APP_MEASUREMENT_ID=<valor de measurementId><br />
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### `Execute o comando abaixo para criar novas chaves secretas:`
+node criarChaves.js
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+#### `Adicione as duas novas chaves abaixo no arquivo .env com os valores gerados pelo comando anterior:`
+REACT_APP_CHAVE_CRIPTOGRAFIA=<br />
+REACT_APP_IV_PASS=<br />
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## `Executar o projeto Biblioteca:`
 
-## Learn More
+#### `Digite o comando:`
+npm start
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## `Quer saber como publicar uma aplicação React.js no Firebase Hosting? Acesse:`
+https://github.com/marcoscrocci/reactjs-deploy-firebase
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
