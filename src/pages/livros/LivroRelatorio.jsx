@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import GlobalContext from '../../context/GlobalContext';
-import { listarLivros } from '../../context/LivroActions';
+import { listar } from '../../context/LivroActions';
 import Mensagem from '../../componentes/Mensagem';
 import Linha from '../../componentes/Linha';
 import Grade from '../../componentes/Grade';
@@ -19,7 +19,7 @@ export default function LivroRelatorio({ match }) {
                 console.log('Toke ERRO');
                 console.log(err);
             } else {
-                listarLivros(dispatch, mensagem);
+                listar(dispatch, mensagem);
                 //console.log('Toke OK');
             }
         });
@@ -102,7 +102,7 @@ export default function LivroRelatorio({ match }) {
 
     return (
         <div>
-            {(state.estaListandoLivros || state.estaSalvandoLivro) && <Loader />}
+            {(state.estaListando || state.estaSalvando) && <Loader />}
             <Linha>
                 <Grade colunas="12">
                     {montarRelatorio()}

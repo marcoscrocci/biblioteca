@@ -11,7 +11,7 @@ import Linha from '../../componentes/Linha'
 import { botaoEstilo, dialogFormEstilo, dialogFormExcluirEstilo } from '../../estilos'
 import GlobalContext from '../../context/GlobalContext'
 
-import { salvarLivro } from '../../context/LivroActions'
+import { salvar } from '../../context/LivroActions'
 import Mensagem from '../../componentes/Mensagem'
 import { Fullscreen } from '@material-ui/icons'
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -96,10 +96,10 @@ const LivroForm = forwardRef((props, ref) => {
 
 
     useEffect(() => {
-        if (!state.estaSalvandoLivro && !state.erroSalvandoLivro) {
+        if (!state.estaSalvando && !state.erroSalvando) {
             handleClose();
         }
-    }, [state.estaSalvandoLivro, state.erroSalvandoLivro]);
+    }, [state.estaSalvando, state.erroSalvando]);
 
 
     const handleClose = () => {
@@ -123,7 +123,7 @@ const LivroForm = forwardRef((props, ref) => {
             ativo: Ativo
         }
         
-        salvarLivro(dispatch, livro, mensagem);
+        salvar(dispatch, livro, mensagem);
     }
 
     const handleFullscreen = () => {

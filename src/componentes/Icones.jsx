@@ -27,6 +27,7 @@ import {
     ZoomOut as MenosZoom,
     ColorLens as Personalizar,
     Assignment as Account,
+    Person as Autor,
     Menu,
     Apps as SistemaIcones
 } from '@material-ui/icons';
@@ -104,6 +105,8 @@ export default function Icones(props) {
             return <Personalizar />
         case 'Account':
             return <Account />
+        case 'Autor':
+            return <Autor />
         case 'Menu':
             return <Menu />
         case 'SistemaIcones':

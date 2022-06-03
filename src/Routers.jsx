@@ -13,6 +13,8 @@ import LivroRelatorio from './pages/livros/LivroRelatorio';
 import Usuarios from './pages/usuarios';
 import TestFirebase from './pages/TestFirebase';
 import Teste from './pages/teste';
+import Autor from './pages/autores';
+
 
 
 export default function Routers(props) {
@@ -24,6 +26,7 @@ export default function Routers(props) {
                 <Route path='/livros/relatorio/:token' component={LivroRelatorio} />
                 <Route path='/livros' component={Livros} />
                 <Route path='/usuarios' component={Usuarios} />
+                <Route path='/autores' component={Autor} />
                 <Route path='/' component={Main} />
                 <Redirect from='*' to='/' />
             </Switch>

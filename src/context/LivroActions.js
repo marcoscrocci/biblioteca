@@ -4,104 +4,103 @@ import Api from '../Api';
 
 export const actions = {
 
-    listandoLivros(state, action) {
+    listando(state, action) {
         return {
             ...state,
-            erroListandoLivros: false,
-            estaListandoLivros: true
+            erroListando: false,
+            estaListando: true
         }
     },
 
-    livrosListados(state, action) {
-        const livros = action.payload;
+    listados(state, action) {
         return {
             ...state,
-            erroListandoLivros: false,
-            estaListandoLivros: false,
-            livros
+            erroListando: false,
+            estaListando: false,
+            livros: action.payload
         }
     },
 
-    livrosNaoListados(state, action) {
+    naoListados(state, action) {
         return {
             ...state,
-            erroListandoLivros: true,
-            estaListandoLivros: false
+            erroListando: true,
+            estaListando: false
         }
     },
 
-    salvandoLivro(state, action) {
+    salvando(state, action) {
         return {
             ...state,
-            erroSalvandoLivro: false,
-            estaSalvandoLivro: true
+            erroSalvando: false,
+            estaSalvando: true
         }
     },
 
-    livroSalvo(state, action) {
+    salvo(state, action) {
         const mensagemComponente = action.payload;
         const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
         mostrarMensagem(msg, state);
         return {
             ...state,
-            erroSalvandoLivro: false,
-            estaSalvandoLivro: false
+            erroSalvando: false,
+            estaSalvando: false
         }
     },
 
-    livroNaoSalvo(state, action) {
+    naoSalvo(state, action) {
         //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
             ...state,
-            erroSalvandoLivro: true,
-            estaSalvandoLivro: false
+            erroSalvando: true,
+            estaSalvando: false
         }
     }
 
 }
 
-export const listarLivros = (dispatch, mensagemComponente) => {
+export const listar = (dispatch, mensagemComponente) => {
     dispatch({ 
-        type: 'listandoLivros'
+        type: 'listando'
     });
 
     Api.listarLivros()
-    .then((listaLivros) => {   
+    .then((lista) => {   
         dispatch({ 
-            type: 'livrosListados',
-            payload: listaLivros
+            type: 'listados',
+            payload: lista
         });
     })
     .catch((error) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livrosNaoListados',
+            type: 'naoListados',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });
 }
 
-export const salvarLivro = (dispatch, livro, mensagemComponente) => {
+export const salvar = (dispatch, objeto, mensagemComponente) => {
     
     dispatch({
-        type: 'salvandoLivro'
+        type: 'salvando'
     });
     
-    Api.salvarLivro(livro)
-    .then((livroSalvo) => {
+    Api.salvarLivro(objeto)
+    .then((salvo) => {
         dispatch({ 
-            type: 'livroSalvo',
-            payload: livroSalvo
+            type: 'salvo',
+            payload: objeto
         });
     })
     .catch((error) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livroNaoSalvo',
+            type: 'naoSalvo',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });

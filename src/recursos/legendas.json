@@ -54,6 +54,7 @@
         "sim": "Sim",
         "nao": "Não",
         "livrosRelatorioTitulo": "Relatório de Livros",
-        "imprimir": "Imprimir"
+        "imprimir": "Imprimir",
+        "autoresTitulo": "Autores"
     }
 }

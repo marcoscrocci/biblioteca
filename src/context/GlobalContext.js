@@ -8,6 +8,7 @@ import { actions as testActions } from './TestActions';
 const initialState = {
     barraLateral: true,
     usuario: null,
+    legenda: null,
     menu: [
         {
             MenuID: 1,
@@ -28,6 +29,16 @@ const initialState = {
             SubMenuID: null,
             SubMenu: [],
             Administrador: true
+        },
+        {
+            MenuID: 3,
+            Descricao: 'Autor',
+            Icone: 'Autor',
+            Caminho: 'autores',
+            Ordem: 3,
+            SubMenuID: null,
+            SubMenu: [],
+            Administrador: false
         }
     ]
 }

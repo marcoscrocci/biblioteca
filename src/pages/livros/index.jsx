@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useEffect } from 'react';
 import GlobalContext from '../../context/GlobalContext';
-import { listarLivros } from '../../context/LivroActions';
+import { listar } from '../../context/LivroActions';
 import Conteudo from '../../componentes/Conteudo';
 import Mensagem from '../../componentes/Mensagem';
 import b64 from 'base-64';
@@ -20,7 +20,6 @@ export default function LivroLista() {
     const mensagem = useRef();
 
     const tabColunas = [
-        //{ title: state.legenda.codigo, field: 'id' },
         { title: state.legenda.tombo, field: 'tombo' },
         { title: state.legenda.tombofim, field: 'tombofim' },
         { title: state.legenda.titulo, field: 'titulo' },
@@ -30,15 +29,15 @@ export default function LivroLista() {
 
     useEffect(() => {
         document.title = `${state.legenda.nomeAplicativo} - ${state.legenda.livrosTitulo}`
-        if (!state.estaSalvandoLivro) {
-            listarLivros(dispatch, mensagem, state.legenda);
+        if (!state.estaSalvando) {
+            listar(dispatch, mensagem, state.legenda);
         }
-    }, [state.estaSalvandoLivro, dispatch, state.legenda.nomeAplicativo, state.legenda.livrosTitulo, state.legenda]);
+    }, [state.estaSalvando, dispatch, state.legenda.nomeAplicativo, state.legenda.livrosTitulo, state.legenda]);
 
 
     const atualizar = () => {
         //alert('atualizar')
-        listarLivros(dispatch, mensagem, state.legenda);
+        listar(dispatch, mensagem, state.legenda);
     }
 
     const adicionar = () => {
@@ -117,7 +116,7 @@ export default function LivroLista() {
 
     return (
         <div>
-            {(state.estaListandoLivros || state.estaSalvandoLivro) && <Loader />}
+            {(state.estaListando || state.estaSalvando) && <Loader />}
             <Conteudo>
                 <Linha>
                     <Grade colunas="12">
