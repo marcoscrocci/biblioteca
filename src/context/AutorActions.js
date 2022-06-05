@@ -4,7 +4,7 @@ import Api from '../Api';
 
 export const actions = {
 
-    listandoLivros(state, action) {
+    listandoAutores(state, action) {
         return {
             ...state,
             erroListando: false,
@@ -12,16 +12,16 @@ export const actions = {
         }
     },
 
-    livroslistados(state, action) {
+    autoresListados(state, action) {
         return {
             ...state,
             erroListando: false,
             estaListando: false,
-            livros: action.payload
+            autores: action.payload
         }
     },
 
-    livrosNaoListados(state, action) {
+    autoresNaoListados(state, action) {
         return {
             ...state,
             erroListando: true,
@@ -29,7 +29,7 @@ export const actions = {
         }
     },
 
-    salvandoLivro(state, action) {
+    salvandoAutor(state, action) {
         return {
             ...state,
             erroSalvando: false,
@@ -37,7 +37,7 @@ export const actions = {
         }
     },
 
-    livroSalvo(state, action) {
+    autorSalvo(state, action) {
         const mensagemComponente = action.payload;
         const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
@@ -49,7 +49,7 @@ export const actions = {
         }
     },
 
-    livroNaoSalvo(state, action) {
+    autorNaoSalvo(state, action) {
         //console.log('mostrarMensagem =', action.payload);
         mostrarMensagem(action.payload, state);
         return {
@@ -63,13 +63,13 @@ export const actions = {
 
 export const listar = (dispatch, mensagemComponente) => {
     dispatch({ 
-        type: 'listandoLivros'
+        type: 'listandoAutores'
     });
-
-    Api.listar('livros')
-    .then((lista) => {   
+    
+    Api.listar('autores')
+    .then((lista) => {
         dispatch({ 
-            type: 'livroslistados',
+            type: 'autoresListados',
             payload: lista
         });
     })
@@ -77,7 +77,7 @@ export const listar = (dispatch, mensagemComponente) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livrosNaoListados',
+            type: 'autoresNaoListados',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });
@@ -86,13 +86,13 @@ export const listar = (dispatch, mensagemComponente) => {
 export const salvar = (dispatch, objeto, mensagemComponente) => {
     
     dispatch({
-        type: 'salvando'
+        type: 'salvandoAutor'
     });
     
-    Api.salvarLivro(objeto)
+    Api.salvarAutor(objeto)
     .then((salvo) => {
         dispatch({ 
-            type: 'livrosSalvo',
+            type: 'autorSalvo',
             payload: objeto
         });
     })
@@ -100,7 +100,7 @@ export const salvar = (dispatch, objeto, mensagemComponente) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livroNaoSalvo',
+            type: 'autorNaoSalvo',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });

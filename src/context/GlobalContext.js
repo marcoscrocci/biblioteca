@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react';
 import { actions as sistemaActions } from './SistemaActions';
 import { actions as usuarioActions } from './UsuarioActions';
 import { actions as livroActions } from './LivroActions';
+import { actions as autoresActions } from './AutorActions';
 import { actions as testActions } from './TestActions';
 
 
@@ -50,6 +51,7 @@ const actions = {
     ...sistemaActions,
     ...usuarioActions,
     ...livroActions,
+    ...autoresActions,
     ...testActions
 }
 

@@ -165,10 +165,10 @@ const metodos = {
         });
     },
 
-    listarLivros: async () => {
+    listar: async (colecao) => {
         return new Promise((resolve, reject) => {
             const lista = [];
-            db.collection("livros").where("ativo", "==", true)
+            db.collection(colecao).where("ativo", "==", true)
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
@@ -252,31 +252,7 @@ const metodos = {
         // .then((docRef) => {
         //     console.log(docRef.id)
         // });
-    },
-
-    listarAutores: async () => {
-        return new Promise((resolve, reject) => {
-            const lista = [];
-            db.collection("autores").where("ativo", "==", true)
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const item = doc.data();
-                    item.id = doc.id;
-                    lista.push(item);
-                });
-                resolve(lista);
-            })
-            .catch((error) => {
-                console.log(error.message);
-                const customError = {
-                    code: 'book/error-get-book-list',
-                    message: error.message
-                }
-                reject(customError);
-            });
-        });
-    },    
+    }
 }
 
 export default metodos;
