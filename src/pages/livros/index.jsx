@@ -1,18 +1,17 @@
-import React, { useContext, useRef, useEffect } from 'react';
-import GlobalContext from '../../context/GlobalContext';
-import { listar } from '../../context/LivroActions';
-import Conteudo from '../../componentes/Conteudo';
-import Mensagem from '../../componentes/Mensagem';
-import b64 from 'base-64';
-import Linha from '../../componentes/Linha'
-import Grade from '../../componentes/Grade'
-import MaterialTable from 'material-table'
-import LivroForm from './LivroForm'
-import Loader from '../../componentes/Loader'
-import { localization, materiaTableOptions } from '../../estilos'
-import { Edit, Delete, Add, Refresh, Print } from '@material-ui/icons'
-import jwt from 'jsonwebtoken';
-
+import React, { useContext, useRef, useEffect } from "react";
+import GlobalContext from "../../context/GlobalContext";
+import { listar } from "../../context/LivroActions";
+import Conteudo from "../../componentes/Conteudo";
+import Mensagem from "../../componentes/Mensagem";
+import b64 from "base-64";
+import Linha from "../../componentes/Linha";
+import Grade from "../../componentes/Grade";
+import MaterialTable from "material-table";
+import LivroForm from "./LivroForm";
+import Loader from "../../componentes/Loader";
+import { localization, materiaTableOptions } from "../../estilos";
+import { Edit, Delete, Add, Refresh, Print } from "@material-ui/icons";
+import jwt from "jsonwebtoken";
 
 export default function LivroLista() {
     const { dispatch, state } = useContext(GlobalContext);
@@ -20,25 +19,33 @@ export default function LivroLista() {
     const mensagem = useRef();
 
     const tabColunas = [
-        { title: state.legenda.tombo, field: 'tombo' },
-        { title: state.legenda.tombofim, field: 'tombofim' },
-        { title: state.legenda.titulo, field: 'titulo' },
-        { title: state.legenda.autor, field: 'autor' },
-        { title: state.legenda.editora, field: 'editora' }
-    ]
+        { title: state.legenda.tombo, field: "tombo" },
+        { title: state.legenda.tombofim, field: "tombofim" },
+        { title: state.legenda.titulo, field: "titulo" },
+        { title: state.legenda.autor, field: "autor" },
+        { title: state.legenda.editora, field: "editora" }
+    ];
 
-    useEffect(() => {
-        document.title = `${state.legenda.nomeAplicativo} - ${state.legenda.livrosTitulo}`
-        if (!state.estaSalvando) {
-            listar(dispatch, mensagem, state.legenda);
-        }
-    }, [state.estaSalvando, dispatch, state.legenda.nomeAplicativo, state.legenda.livrosTitulo, state.legenda]);
-
+    useEffect(
+        () => {
+            document.title = `${state.legenda.nomeAplicativo} - ${state.legenda
+                .livrosTitulo}`;
+            if (!state.estaSalvando) {
+                listar(dispatch, mensagem, state.legenda);
+            }
+        },
+        [
+            state.estaSalvando,
+            dispatch,
+            state.legenda.nomeAplicativo,
+            state.legenda.livrosTitulo,
+            state.legenda
+        ]
+    );
 
     const atualizar = () => {
-        //alert('atualizar')
         listar(dispatch, mensagem, state.legenda);
-    }
+    };
 
     const adicionar = () => {
         var livro = {
@@ -51,8 +58,7 @@ export default function LivroLista() {
             ativo: true
         };
         formLivro.current.abrirLivroForm(livro);
-    }
-
+    };
 
     const editar = (event, rowData) => {
         var livro = {
@@ -63,10 +69,10 @@ export default function LivroLista() {
             autor: rowData.autor,
             editora: rowData.editora,
             ativo: rowData.ativo
-        }
+        };
 
         formLivro.current.abrirLivroForm(livro);
-    }
+    };
 
     const excluir = (event, rowData) => {
         var livro = {
@@ -77,15 +83,19 @@ export default function LivroLista() {
             autor: rowData.autor,
             editora: rowData.editora,
             ativo: false
-        }
+        };
 
         formLivro.current.abrirLivroForm(livro);
-    }
+    };
 
     const imprimir = (event, rowData) => {
-        var token = jwt.sign({ id: state.usuario.id }, process.env.REACT_APP_API_KEY, {
-            expiresIn: 120 // expires in 120 segundos
-        });
+        var token = jwt.sign(
+            { id: state.usuario.id },
+            process.env.REACT_APP_API_KEY,
+            {
+                expiresIn: 120 // expires in 120 segundos
+            }
+        );
 
         const urlServer = window.location.href;
         //console.log(urlServer);
@@ -100,19 +110,23 @@ export default function LivroLista() {
             pdf: {
                 printBackground: true,
                 format: "A4",
-                margin: { top: "1.9cm", left: "1.2cm", right: "1.2cm", bottom: "1.8cm" },
+                margin: {
+                    top: "1.9cm",
+                    left: "1.2cm",
+                    right: "1.2cm",
+                    bottom: "1.8cm"
+                },
                 landscape: true
             }
-        }
+        };
         const parametros = b64.encode(JSON.stringify(pagina));
 
         //alert('parametros:' + parametros);
         const urlGerarPdf = process.env.REACT_APP_GERAR_PDF_URL;
 
-        var relatorio = window.open(`${urlGerarPdf}/${parametros}`, '_blank');
+        var relatorio = window.open(`${urlGerarPdf}/${parametros}`, "_blank");
         relatorio.focus();
-    }
-
+    };
 
     return (
         <div>
@@ -129,12 +143,12 @@ export default function LivroLista() {
                             actions={[
                                 {
                                     icon: () => <Edit color="primary" />,
-                                    tooltip: 'Editar',
+                                    tooltip: "Editar",
                                     onClick: editar
                                 },
                                 {
                                     icon: () => <Delete color="secondary" />,
-                                    tooltip: 'Excluir',
+                                    tooltip: "Excluir",
                                     onClick: excluir
                                 },
                                 {
@@ -159,12 +173,9 @@ export default function LivroLista() {
                         />
                     </Grade>
                 </Linha>
-                <LivroForm
-                    ref={formLivro}
-                />
+                <LivroForm ref={formLivro} />
                 <Mensagem ref={mensagem} />
             </Conteudo>
         </div>
-    )
+    );
 }
-

@@ -8,7 +8,8 @@ function AutorLista() {
     const { dispatch, state } = useContext(GlobalContext);
     const mensagem = useRef();
     const tabColunas = [
-        { title: state.legenda.autor, field: 'autor' },
+        { title: state.legenda.nome, field: 'nome' },
+        { title: state.legenda.wikipedia, field: 'wikipedia' }
     ]
 
     useEffect(() => {
@@ -20,10 +21,12 @@ function AutorLista() {
 
     return (
         <div>
-            <Lista tabColunas={tabColunas}>
-                <div>AutorLista</div>
-                {JSON.stringify(state.autores)}
-            </Lista>
+            <Lista
+                titulo={state.legenda.autoresTitulo}
+                tabColunas={tabColunas}
+                dados={state.autores}
+                listar={listar}
+            />
             <Mensagem ref={mensagem} />
         </div>
     );

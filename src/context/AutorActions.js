@@ -2,63 +2,7 @@ import Api from '../Api';
 import { actions as globalActions } from './GlobalActions';
 
 export const actions = {
-
     ...globalActions,
-    // listandoAutores(state, action) {
-    //     return {
-    //         ...state,
-    //         erroListando: false,
-    //         estaListando: true
-    //     }
-    // },
-
-    autoresListados(state, action) {
-        return {
-            ...state,
-            erroListando: false,
-            estaListando: false,
-            autores: action.payload
-        }
-    },
-
-    // autoresNaoListados(state, action) {
-    //     return {
-    //         ...state,
-    //         erroListando: true,
-    //         estaListando: false
-    //     }
-    // },
-
-    // salvandoAutor(state, action) {
-    //     return {
-    //         ...state,
-    //         erroSalvando: false,
-    //         estaSalvando: true
-    //     }
-    // },
-
-    // autorSalvo(state, action) {
-    //     const mensagemComponente = action.payload;
-    //     const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
-
-    //     mostrarMensagem(msg, state);
-    //     return {
-    //         ...state,
-    //         erroSalvando: false,
-    //         estaSalvando: false
-    //     }
-    // },
-
-    // autorNaoSalvo(state, action) {
-    //     //console.log('mostrarMensagem =', action.payload);
-    //     mostrarMensagem(action.payload, state);
-    //     return {
-    //         ...state,
-    //         erroSalvando: true,
-    //         estaSalvando: false
-    //     }
-    // }
-
 }
 
 export const listar = (dispatch, mensagemComponente) => {
@@ -69,8 +13,8 @@ export const listar = (dispatch, mensagemComponente) => {
     Api.listar('autores')
     .then((lista) => {
         dispatch({ 
-            type: 'autoresListados',
-            payload: lista
+            type: 'listados',
+            autores: lista
         });
     })
     .catch((error) => {

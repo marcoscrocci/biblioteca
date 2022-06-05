@@ -10,14 +10,14 @@ export const actions = {
         }
     },
 
-    // listados(state, action) {
-    //     return {
-    //         ...state,
-    //         erroListando: false,
-    //         estaListando: false,
-    //         livros: action.payload
-    //     }
-    // },
+    listados(state, action) {
+        return {
+            ...state,
+            erroListando: false,
+            estaListando: false,
+            ...action
+        }
+    },
 
     naoListados(state, action) {
         return {
