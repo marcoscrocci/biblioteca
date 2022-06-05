@@ -1,16 +1,17 @@
-import { mostrarMensagem } from '../Utils'
 import Api from '../Api';
+import { actions as globalActions } from './GlobalActions';
 
 
 export const actions = {
 
-    listandoLivros(state, action) {
-        return {
-            ...state,
-            erroListando: false,
-            estaListando: true
-        }
-    },
+    ...globalActions,
+    // listandoLivros(state, action) {
+    //     return {
+    //         ...state,
+    //         erroListando: false,
+    //         estaListando: true
+    //     }
+    // },
 
     livroslistados(state, action) {
         return {
@@ -21,49 +22,49 @@ export const actions = {
         }
     },
 
-    livrosNaoListados(state, action) {
-        return {
-            ...state,
-            erroListando: true,
-            estaListando: false
-        }
-    },
+    // livrosNaoListados(state, action) {
+    //     return {
+    //         ...state,
+    //         erroListando: true,
+    //         estaListando: false
+    //     }
+    // },
 
-    salvandoLivro(state, action) {
-        return {
-            ...state,
-            erroSalvando: false,
-            estaSalvando: true
-        }
-    },
+    // salvandoLivro(state, action) {
+    //     return {
+    //         ...state,
+    //         erroSalvando: false,
+    //         estaSalvando: true
+    //     }
+    // },
 
-    livroSalvo(state, action) {
-        const mensagemComponente = action.payload;
-        const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
+    // livroSalvo(state, action) {
+    //     const mensagemComponente = action.payload;
+    //     const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
-        mostrarMensagem(msg, state);
-        return {
-            ...state,
-            erroSalvando: false,
-            estaSalvando: false
-        }
-    },
+    //     mostrarMensagem(msg, state);
+    //     return {
+    //         ...state,
+    //         erroSalvando: false,
+    //         estaSalvando: false
+    //     }
+    // },
 
-    livroNaoSalvo(state, action) {
-        //console.log('mostrarMensagem =', action.payload);
-        mostrarMensagem(action.payload, state);
-        return {
-            ...state,
-            erroSalvando: true,
-            estaSalvando: false
-        }
-    }
+    // livroNaoSalvo(state, action) {
+    //     //console.log('mostrarMensagem =', action.payload);
+    //     mostrarMensagem(action.payload, state);
+    //     return {
+    //         ...state,
+    //         erroSalvando: true,
+    //         estaSalvando: false
+    //     }
+    // }
 
 }
 
 export const listar = (dispatch, mensagemComponente) => {
     dispatch({ 
-        type: 'listandoLivros'
+        type: 'listando'
     });
 
     Api.listar('livros')
@@ -77,7 +78,7 @@ export const listar = (dispatch, mensagemComponente) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livrosNaoListados',
+            type: 'naoListados',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });
@@ -92,15 +93,15 @@ export const salvar = (dispatch, objeto, mensagemComponente) => {
     Api.salvarLivro(objeto)
     .then((salvo) => {
         dispatch({ 
-            type: 'livrosSalvo',
-            payload: objeto
+            type: 'salvo',
+            payload: mensagemComponente
         });
     })
     .catch((error) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'livroNaoSalvo',
+            type: 'naoSalvo',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });

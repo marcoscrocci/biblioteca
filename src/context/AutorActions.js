@@ -1,16 +1,16 @@
-import { mostrarMensagem } from '../Utils'
 import Api from '../Api';
-
+import { actions as globalActions } from './GlobalActions';
 
 export const actions = {
 
-    listandoAutores(state, action) {
-        return {
-            ...state,
-            erroListando: false,
-            estaListando: true
-        }
-    },
+    ...globalActions,
+    // listandoAutores(state, action) {
+    //     return {
+    //         ...state,
+    //         erroListando: false,
+    //         estaListando: true
+    //     }
+    // },
 
     autoresListados(state, action) {
         return {
@@ -21,49 +21,49 @@ export const actions = {
         }
     },
 
-    autoresNaoListados(state, action) {
-        return {
-            ...state,
-            erroListando: true,
-            estaListando: false
-        }
-    },
+    // autoresNaoListados(state, action) {
+    //     return {
+    //         ...state,
+    //         erroListando: true,
+    //         estaListando: false
+    //     }
+    // },
 
-    salvandoAutor(state, action) {
-        return {
-            ...state,
-            erroSalvando: false,
-            estaSalvando: true
-        }
-    },
+    // salvandoAutor(state, action) {
+    //     return {
+    //         ...state,
+    //         erroSalvando: false,
+    //         estaSalvando: true
+    //     }
+    // },
 
-    autorSalvo(state, action) {
-        const mensagemComponente = action.payload;
-        const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
+    // autorSalvo(state, action) {
+    //     const mensagemComponente = action.payload;
+    //     const msg = { mensagemComponente, mensagemObjeto: { tipo: 'success', texto: state.legenda.operacaoRealizadaComSucesso } }
 
-        mostrarMensagem(msg, state);
-        return {
-            ...state,
-            erroSalvando: false,
-            estaSalvando: false
-        }
-    },
+    //     mostrarMensagem(msg, state);
+    //     return {
+    //         ...state,
+    //         erroSalvando: false,
+    //         estaSalvando: false
+    //     }
+    // },
 
-    autorNaoSalvo(state, action) {
-        //console.log('mostrarMensagem =', action.payload);
-        mostrarMensagem(action.payload, state);
-        return {
-            ...state,
-            erroSalvando: true,
-            estaSalvando: false
-        }
-    }
+    // autorNaoSalvo(state, action) {
+    //     //console.log('mostrarMensagem =', action.payload);
+    //     mostrarMensagem(action.payload, state);
+    //     return {
+    //         ...state,
+    //         erroSalvando: true,
+    //         estaSalvando: false
+    //     }
+    // }
 
 }
 
 export const listar = (dispatch, mensagemComponente) => {
     dispatch({ 
-        type: 'listandoAutores'
+        type: 'listando'
     });
     
     Api.listar('autores')
@@ -77,7 +77,7 @@ export const listar = (dispatch, mensagemComponente) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'autoresNaoListados',
+            type: 'naoListados',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });
@@ -86,21 +86,21 @@ export const listar = (dispatch, mensagemComponente) => {
 export const salvar = (dispatch, objeto, mensagemComponente) => {
     
     dispatch({
-        type: 'salvandoAutor'
+        type: 'salvando'
     });
     
     Api.salvarAutor(objeto)
     .then((salvo) => {
         dispatch({ 
-            type: 'autorSalvo',
-            payload: objeto
+            type: 'salvo',
+            payload: mensagemComponente
         });
     })
     .catch((error) => {
         console.log('erro =', JSON.stringify(error));
         //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
         dispatch({
-            type: 'autorNaoSalvo',
+            type: 'naoSalvo',
             payload: { mensagemComponente, mensagemObjeto: { tipo: 'error', codigo: error.code, texto: error.message } }
         });
     });
