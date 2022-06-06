@@ -11,6 +11,12 @@ function AutorLista() {
         { title: state.legenda.nome, field: 'nome' },
         { title: state.legenda.wikipedia, field: 'wikipedia' }
     ]
+    const autor = {
+        id: null,
+        nome: null,
+        wikipedia: null,
+        ativo: true
+    }
 
     useEffect(() => {
         document.title = `${state.legenda.nomeAplicativo} - ${state.legenda.autoresTitulo}`;
@@ -26,6 +32,7 @@ function AutorLista() {
                 tabColunas={tabColunas}
                 dados={state.autores}
                 listar={listar}
+                objeto={autor}
             />
             <Mensagem ref={mensagem} />
         </div>

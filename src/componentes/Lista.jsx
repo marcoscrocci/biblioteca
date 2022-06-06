@@ -8,7 +8,7 @@ import Grade from "./Grade";
 import MaterialTable from 'material-table'
 import { localization, materiaTableOptions } from '../estilos'
 //import { Edit, Delete, Add, Refresh, Print } from "@material-ui/icons";
-import { Refresh } from "@material-ui/icons";
+import { Refresh, Add } from "@material-ui/icons";
 
 function Lista(props) {
     const { dispatch, state } = useContext(GlobalContext);
@@ -16,6 +16,11 @@ function Lista(props) {
 
     const atualizar = () => {
         props.listar && props.listar(dispatch, mensagem, state.legenda);
+    }
+
+    const adicionar = () => {
+        var objeto = props.objeto ? props.objeto : {};
+        console.log(JSON.stringify(objeto));
     }
 
     return (
@@ -39,6 +44,12 @@ function Lista(props) {
                                     tooltip: state.legenda.atualizar,
                                     isFreeAction: true,
                                     onClick: atualizar
+                                },
+                                {
+                                    icon: () => <Add color="primary" />,
+                                    tooltip: state.legenda.adicionar,
+                                    isFreeAction: true,
+                                    onClick: adicionar
                                 }
                             ]}
                         />
