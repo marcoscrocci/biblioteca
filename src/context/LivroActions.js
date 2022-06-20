@@ -11,7 +11,7 @@ export const listar = (dispatch, mensagemComponente) => {
         type: 'listando'
     });
 
-    Api.listar('livros')
+    Api.listarLivros('livros')
     .then((lista) => {   
         dispatch({ 
             type: 'listados',

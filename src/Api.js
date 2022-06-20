@@ -165,6 +165,49 @@ const metodos = {
         });
     },
 
+    listarLivros: async (colecao) => {
+        return new Promise((resolve, reject) => {
+            const lista = [];
+            db.collection(colecao).where("ativo", "==", true)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach(async (doc) => {
+                    const item = doc.data();
+                    //console.log("doc = ", item);
+                    item.id = doc.id;
+                    //var autor_nome = item.autor;
+                    /*if (item.tombo === 4524) {
+                        console.log("autor =", JSON.stringify(item.autor));
+                        var autorDoc = await db.doc(item.autor).get();
+                        console.log("autorDoc =", JSON.stringify(autorDoc.data()));
+                        item.autor = autorDoc.nome;
+                        /*.then((autorDoc) => {
+                            let autor = autorDoc.data();
+                            autor.id = autorDoc.id;
+                            autor_nome = autor.nome;
+                            console.log("autor =", JSON.stringify(autor));
+                            console.log("autor_nome =", JSON.stringify(autor_nome));
+                        });//
+                        //item.autor
+                        //item.autor = null;
+                    }*/
+                    //console.log("item = ", JSON.stringify(item));
+                    //item.autor = autor_nome;
+                    lista.push(item);
+                });
+                resolve(lista);
+            })
+            .catch((error) => {
+                console.log(error.message);
+                const customError = {
+                    code: 'book/error-get-book-list',
+                    message: error.message
+                }
+                reject(customError);
+            });
+        });
+    },
+
     listar: async (colecao) => {
         return new Promise((resolve, reject) => {
             const lista = [];
@@ -209,6 +252,40 @@ const metodos = {
                 db.collection("livros").add(livro)
                 .then(() => {
                     resolve(livro);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    const customError = {
+                        code: 'book/error-add-book',
+                        message: error.message
+                    }
+                    reject(customError);
+                    //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+                });
+            }
+        });
+    },
+
+    salvarAutor: async (autor) => {
+        return new Promise((resolve, reject) => {
+            if (autor.id) {
+                db.collection("autores").doc(autor.id).update(autor)
+                .then(() => {
+                    resolve(autor);
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    const customError = {
+                        code: 'book/error-update-book',
+                        message: error.message
+                    }
+                    reject(customError);
+                    //alert(`Código: ${error.code} - Mensagem: ${error.message}`);
+                })
+            } else {
+                db.collection("autores").add(autor)
+                .then(() => {
+                    resolve(autor);
                 })
                 .catch((error) => {
                     console.log(error.message);

@@ -56,6 +56,11 @@
         "livrosRelatorioTitulo": "Relatório de Livros",
         "imprimir": "Imprimir",
         "autoresTitulo": "Autores",
+        "adicionarAutor": "Adicionar Autor",
+        "editarAutor": "Editar Autor",
+        "excluirAutor": "Excluir Autor",
+        "erroAtualizarAutor": "Ocorreu um erro ao atualizar as informações do autor no banco de dados",
+        "erroAdicionarAutor": "Ocorreu um erro ao adicionar as informações do autor no banco de dados",
         "wikipedia": "Wikipedia"
     }
 }

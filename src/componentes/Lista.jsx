@@ -8,7 +8,7 @@ import Grade from "./Grade";
 import MaterialTable from 'material-table'
 import { localization, materiaTableOptions } from '../estilos'
 //import { Edit, Delete, Add, Refresh, Print } from "@material-ui/icons";
-import { Refresh, Add } from "@material-ui/icons";
+import { Refresh, Add, Edit, Delete } from "@material-ui/icons";
 
 function Lista(props) {
     const { dispatch, state } = useContext(GlobalContext);
@@ -19,8 +19,15 @@ function Lista(props) {
     }
 
     const adicionar = () => {
-        var objeto = props.objeto ? props.objeto : {};
-        console.log(JSON.stringify(objeto));
+        props.adicionar && props.adicionar();
+    }
+
+    const editar = (event, rowData) => {
+        props.editar && props.editar(rowData);
+    }
+
+    const excluir = (event, rowData) => {
+        props.excluir && props.excluir(rowData);
     }
 
     return (
@@ -39,6 +46,16 @@ function Lista(props) {
                             data={props.dados}
                             options={materiaTableOptions}
                             actions={[
+                                {
+                                    icon: () => <Edit color="primary" />,
+                                    tooltip: "Editar",
+                                    onClick: editar
+                                },
+                                {
+                                    icon: () => <Delete color="secondary" />,
+                                    tooltip: "Excluir",
+                                    onClick: excluir
+                                },
                                 {
                                     icon: () => <Refresh color="primary" />,
                                     tooltip: state.legenda.atualizar,
